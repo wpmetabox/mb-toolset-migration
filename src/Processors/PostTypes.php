@@ -96,5 +96,4 @@ class PostTypes extends Base {
 		] );
 	}
 
-
 }
