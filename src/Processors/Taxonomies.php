@@ -32,12 +32,15 @@ class Taxonomies extends Base {
 			if ( $i < 3 ) {
 				continue;
 			}
-			$plural               = Arr::get( $value, 'labels.name' );
-			$singular             = Arr::get( $value, 'labels.singular_name' );
-			$supports             = Arr::get( $value, 'supports', [] );
-			$value['query_var']   = Arr::get( $value, 'query_var_enabled' );
-			$value['meta_box_cb'] = Arr::get( $value, 'meta_box_cb.callback', 'post_tags_meta_box' );
-			$value['types']         = [];
+			$plural                = Arr::get( $value, 'labels.name' );
+			$singular              = Arr::get( $value, 'labels.singular_name' );
+			$slug                  = Arr::get( $value, 'slug' );
+			$supports              = Arr::get( $value, 'supports', [] );
+			$value['query_var']    = Arr::get( $value, 'query_var_enabled' );
+			$value['meta_box_cb']  = Arr::get( $value, 'meta_box_cb.disabled' ) ? false : 'post_tags_meta_box';
+			$value['show_in_rest'] = Arr::get( $value, 'show_in_rest_force_disable' ) ? false : true;
+			$value['hierarchical'] =  Arr::get( $value, 'hierarchical' ) ? true : false;
+			$value['types']        = [];
 			foreach( $supports as $key => $values ) {
 				$value['types'][] = $key;
 			}
@@ -67,19 +70,30 @@ class Taxonomies extends Base {
 			$value['labels'] = array_merge( $value['labels'], $array );
 			$content         = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 			$content         = str_replace( '"1"', 'true', $content );
-			wp_insert_post([
-				'post_content' => $content,
-				'post_type'    => 'mb-taxonomy',
-				'post_title'   => $singular,
-				'post_status'  => 'publish',
-			]);
+			global $wpdb;
+			$post_id         = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type='mb-taxonomy'", $slug ) );
+			if ( $post_id ) {
+				wp_update_post([
+					'ID'           => $post_id,
+					'post_content' => $content,
+				]);
+			} else {
+				$post_id = wp_insert_post([
+					'post_content' => $content,
+					'post_type'    => 'mb-taxonomy',
+					'post_title'   => $plural,
+					'post_status'  => 'publish',
+					'post_name'    => $slug,
+				]);
+			}
+			update_post_meta( $i, 'mb_taxonomy_id', $post_id );
 		}
 		$data_taxots_new = [];
 		$i               = 0;
 		foreach ( $data_taxots as $key => $value ) {
 			$i ++;
 			if ( $i > 2 ) {
-				$value['disabled']   = '1' ;
+				$value['disabled'] = '1' ;
 			}
 			$data_taxots_new[ $key ] = $value;
 		}

@@ -29,10 +29,12 @@ class PostTypes extends Base {
 		foreach ( $data_cptts as $value ) {
 			$plural                 = Arr::get( $value, 'labels.name' );
 			$singular               = Arr::get( $value, 'labels.singular_name' );
+			$slug                   = Arr::get( $value, 'slug' );
 			$value['menu_position'] = (int) Arr::get( $value, 'menu_position' ) ?: '';
 			$value['archive_slug']  = Arr::get( $value, 'has_archive_slug' );
 			$value['icon_type']     = 'dashicons';
 			$value['icon']          = 'dashicons-'.Arr::get( $value, 'icon' ) ?: 'dashicons-admin-post';
+			$value['hierarchical']  = Arr::get( $value, 'hierarchical' ) ? true : false;
 			$supports               = Arr::get( $value, 'supports', [] );
 			$taxonomies             = Arr::get( $value, 'taxonomies', [] );
 			$value['supports']      = [];
@@ -77,12 +79,23 @@ class PostTypes extends Base {
 			$value['labels'] = array_merge( $value['labels'], $array );
 			$content         = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 			$content         = str_replace( '"1"', 'true', $content );
-			wp_insert_post([
-				'post_content' => $content,
-				'post_type'    => 'mb-post-type',
-				'post_title'   => $singular,
-				'post_status'  => 'publish',
-			]);
+			global $wpdb;
+			$post_id         = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type='mb-post-type'", $slug ) );
+
+			if ( $post_id ) {
+				wp_update_post([
+					'ID'           => $post_id,
+					'post_content' => $content,
+				]);
+			} else {
+				wp_insert_post([
+					'post_content' => $content,
+					'post_type'    => 'mb-post-type',
+					'post_title'   => $plural,
+					'post_status'  => 'publish',
+					'post_name'    => $slug,
+				]);
+			}
 		}
 		$data_cptts_new = [];
 		foreach ( $data_cptts as $key => $value ) {
