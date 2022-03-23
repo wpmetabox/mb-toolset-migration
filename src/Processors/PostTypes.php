@@ -80,7 +80,7 @@ class PostTypes extends Base {
 			$content         = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
 			$content         = str_replace( '"1"', 'true', $content );
 			global $wpdb;
-			$post_id         = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type='mb-post-type'", $slug ) );
+			$post_id         = $this->get_id_by_slug( $slug, 'mb-post-type' );
 
 			if ( $post_id ) {
 				wp_update_post([
