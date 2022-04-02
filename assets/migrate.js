@@ -15,11 +15,11 @@
 		printMessage( i18n.migratingTaxonomies );
 		await migrate( 'taxonomies' );
 
-/*		await resetCounter();
+		await resetCounter();
 		printMessage( i18n.migratingFieldGroups );
 		await migrate( 'field_groups' );
 
-		await resetCounter();
+/*		await resetCounter();
 		printMessage( i18n.migratingPosts );
 		await migrate( 'posts' );
 
