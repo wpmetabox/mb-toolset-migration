@@ -19,7 +19,7 @@
 		printMessage( i18n.migratingFieldGroups );
 		await migrate( 'field_groups' );
 
-/*		await resetCounter();
+		await resetCounter();
 		printMessage( i18n.migratingPosts );
 		await migrate( 'posts' );
 
@@ -29,7 +29,7 @@
 
 		await resetCounter();
 		printMessage( i18n.migratingUsers );
-		await migrate( 'users' );*/
+		await migrate( 'users' );
 
 		printMessage( i18n.done );
 	} );

@@ -43,6 +43,7 @@ class Fields {
 
 		$conditional_logic = new ConditionalLogic( $settings );
 		$conditional_logic->migrate();
+
 		$this->fields[ $settings['_id'] ] = $settings;
 	}
 }

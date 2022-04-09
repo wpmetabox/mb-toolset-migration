@@ -189,8 +189,9 @@ class FieldType {
 	}
 
 	private function migrate_date() {
-		$date_and_time = Arr::get( $this->settings, 'data.date_and_time' );
-		$this->type    = ( $date_and_time == 'date' ) ? 'date' : 'datetime';
+		$date_and_time   = Arr::get( $this->settings, 'data.date_and_time' );
+		$this->type      = ( $date_and_time == 'date' ) ? 'date' : 'datetime';
+		$this->timestamp = true;
 	}
 
 

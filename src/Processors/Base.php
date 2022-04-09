@@ -39,6 +39,10 @@ abstract class Base {
 		return get_metadata( $this->object_type, $this->item, $key, true );
 	}
 
+	public function get_all( $key ) {
+		return get_metadata( $this->object_type, $this->item, $key, false );
+	}
+
 	public function add( $key, $value ) {
 		add_metadata( $this->object_type, $this->item, $key, $value, false );
 	}

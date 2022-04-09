@@ -33,9 +33,9 @@ class Ajax {
 			'post_types',
 			'taxonomies',
 			'field_groups',
-	/*		'posts',
+			'posts',
 			'terms',
-			'users',*/
+			'users',
 		], true ) ) {
 			return;
 		}
