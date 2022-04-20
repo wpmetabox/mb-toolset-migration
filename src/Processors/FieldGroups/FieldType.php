@@ -5,9 +5,11 @@ use MetaBox\Support\Arr;
 
 class FieldType {
 	private $settings;
+	private $post_id;
 
-	public function __construct( $settings ) {
+	public function __construct( $settings, $post_id ) {
 		$this->settings = $settings;
+		$this->post_id  = $post_id;
 	}
 
 	public function __get( $name ) {
@@ -32,6 +34,10 @@ class FieldType {
 		$method = "migrate_{$this->type}";
 		if ( method_exists( $this, $method ) ) {
 			$this->$method();
+		}
+
+		if ( $this->post_id ){
+			$this->migrate_group();
 		}
 
 		return $this->settings;
@@ -64,8 +70,20 @@ class FieldType {
 
 	}
 
+	private function migrate_group() {
+		$this->type          = 'group';
+		$this->id            = get_post_meta( $this->post_id, '_types_repeatable_field_group_post_type', true );
+		$this->_id           = $this->type . '_' . uniqid();
+		$this->name          = get_the_title( $this->post_id );
+		$this->clone         = true;
+		$this->sort_clone    = true;
+		$this->clone_default = true;
+		$fields              = new Fields( $this->post_id );
+		$this->fields        = $fields->migrate_fields();
+	}
+
 	private function migrate_phone() {
-		$this->type = 'tel';
+		$this->type = 'text';
 	}
 
 	private function migrate_textfield() {
@@ -194,18 +212,8 @@ class FieldType {
 		$this->timestamp = true;
 	}
 
-
 	private function migrate_colorpicker() {
 		$this->type = 'color';
-	}
-
-	private function migrate_group() {
-		$fields = new Fields( $this->post_id );
-
-		$this->fields = $fields->migrate_fields();
-
-		unset( $this->layout );
-		unset( $this->sub_fields );
 	}
 
 }

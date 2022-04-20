@@ -14,7 +14,30 @@ class PostTypes extends Base {
 			return [];
 		}
 
-		return $data_cptts;
+		$excepts = $this->get_except_post_types();
+		if ( ! $excepts ) {
+			return $data_cptts;
+		}
+		$excepts_pt = [];
+		foreach ( $excepts as $except ) {
+			$excepts_pt[] = $except->post_title;
+		}
+
+		$data_pt = [];
+		foreach ( $data_cptts as $key => $post_type ) {
+			if ( ! in_array( $key, $excepts_pt ) ) {
+				$data_pt[$key] = $post_type;
+			}
+		}
+
+		return $data_pt;
+	}
+
+	private function get_except_post_types() {
+		global $wpdb;
+		$sql        = "SELECT post_title FROM $wpdb->posts WHERE post_type=%s AND post_status=%s";
+		$excepts_pt = $wpdb->get_results( $wpdb->prepare( $sql, 'wp-types-group', 'hidden' ) );
+		return $excepts_pt;
 	}
 
 	protected function migrate_item() {
@@ -97,6 +120,7 @@ class PostTypes extends Base {
 				]);
 			}
 		}
+		$data_cptts     = get_option( 'wpcf-custom-types' );
 		$data_cptts_new = [];
 		foreach ( $data_cptts as $key => $value ) {
 			$value['disabled']       = '1' ;

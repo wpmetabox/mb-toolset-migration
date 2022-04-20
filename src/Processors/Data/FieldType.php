@@ -6,16 +6,19 @@ class FieldType {
 	private $settings;
 	private $storage;
 	private $field_value;
+	private $field_id;
 
 	public function __construct( $args ) {
 		$this->settings    = $args['settings'];
 		$this->storage     = $args['storage'];
+		$this->field_id    = $args['field_id'];
 		$this->field_value = new FieldValue( [
-			'key'     => $args['settings']['id'],
-			'storage' => $args['storage'],
-			'type'    => $args['settings']['type'],
-			'post_id' => $args['post_id'],
-			'clone'   => Arr::get( $this->settings, 'data.repetitive' )
+			'key'      => $args['settings']['id'],
+			'storage'  => $args['storage'],
+			'type'     => $args['settings']['type'],
+			'post_id'  => $args['post_id'],
+			'clone'    => Arr::get( $this->settings, 'data.repetitive' ),
+			'field_id' => $args['field_id']
 		] );
 	}
 
@@ -23,9 +26,20 @@ class FieldType {
 		// Always delete redundant key.
 		$this->storage->delete( "_{$this->settings['id']}" );
 
-		$method = "migrate_{$this->settings['type']}";
+		$method = ( $this->field_id ) ? 'migrate_group' : "migrate_{$this->settings['type']}";
 		$method = method_exists( $this, $method ) ? $method : 'migrate_general';
 		$this->$method();
+	}
+
+	private function migrate_general() {
+		$value = $this->field_value->get_value();
+		$this->storage->update( $this->settings['id'], $value );
+	}
+
+	private function migrate_group() {
+		$id    = get_post_meta( $this->field_id, '_types_repeatable_field_group_post_type', true );
+		$value = $this->field_value->get_value();
+		$this->storage->update( $id, $value );
 	}
 
 	private function migrate_image() {
@@ -55,11 +69,6 @@ class FieldType {
 
 	private function migrate_user() {
 		$this->migrate_multiple();
-	}
-
-	private function migrate_general() {
-		$value = $this->field_value->get_value();
-		$this->storage->update( $this->settings['id'], $value );
 	}
 
 	private function migrate_multiple() {

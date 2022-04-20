@@ -18,7 +18,7 @@ class FieldGroups extends Base {
 
 		$query = new WP_Query( [
 			'post_type'              =>  [ 'wp-types-group', 'wp-types-term-group', 'wp-types-user-group' ],
-			'post_status'            => 'any',
+			'post_status'            => 'publish',
 			'posts_per_page'         => -1,
 			'no_found_rows'          => true,
 			'update_post_meta_cache' => false,
@@ -48,8 +48,8 @@ class FieldGroups extends Base {
 		$parser->parse();
 		update_post_meta( $this->post_id, 'meta_box', $parser->get_settings() );
 
-		$this->disable_post();
-		// $this->delete_post();
+		//$this->disable_post();
+		//$this->delete_post();
 	}
 
 	private function create_post() {

@@ -15,7 +15,7 @@ class Fields {
 	public function migrate_fields() {
 
 		$fields = get_post_meta( $this->parent, '_wp_types_group_fields', true );
-		$fields = array_filter( explode( ",", $fields ) );
+		$fields = array_filter( explode( ',', $fields ) );
 
 		foreach ( $fields as $field ) {
 			$this->field = $field;
@@ -33,12 +33,18 @@ class Fields {
 
 		$settings = $settings[ $this->field ];
 
-		$ignore_types = [ 'audio', 'skype' ];
+		$ignore_types = [ 'audio', 'skype', 'post' ];
 		if ( in_array( $settings['type'], $ignore_types ) ) {
 			return;
 		}
 
-		$field_type = new FieldType( $settings );
+		$field_id = '';
+		if ( preg_match( '/^_repeatable_group_/', $this->field ) ) {
+			$field_id = explode( '_', $this->field );
+			$field_id = (int) end( $field_id );
+		}
+
+		$field_type = new FieldType( $settings, $field_id );
 		$settings   = $field_type->migrate();
 
 		$conditional_logic = new ConditionalLogic( $settings );
@@ -46,4 +52,5 @@ class Fields {
 
 		$this->fields[ $settings['_id'] ] = $settings;
 	}
+
 }

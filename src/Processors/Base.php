@@ -43,6 +43,10 @@ abstract class Base {
 		return get_metadata( $this->object_type, $this->item, $key, false );
 	}
 
+	public function get_id_related_posts( $key ) {
+		return toolset_get_related_posts( $this->item, $key, array( 'query_by_role' => 'parent', 'return' => 'post_id' ) );
+	}
+
 	public function add( $key, $value ) {
 		add_metadata( $this->object_type, $this->item, $key, $value, false );
 	}
