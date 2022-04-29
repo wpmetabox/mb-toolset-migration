@@ -31,6 +31,10 @@
 		printMessage( i18n.migratingUsers );
 		await migrate( 'users' );
 
+		await resetCounter();
+		printMessage( i18n.migratingRelationship );
+		await migrate( 'relationship' );
+
 		printMessage( i18n.done );
 	} );
 

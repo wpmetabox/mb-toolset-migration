@@ -36,6 +36,7 @@ class Ajax {
 			'posts',
 			'terms',
 			'users',
+			'relationship',
 		], true ) ) {
 			return;
 		}

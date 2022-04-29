@@ -59,18 +59,6 @@ class FieldType {
 		$this->migrate_multiple();
 	}
 
-	private function migrate_post_object() {
-		$this->migrate_multiple();
-	}
-
-	private function migrate_relationship() {
-		$this->migrate_multiple( true );
-	}
-
-	private function migrate_user() {
-		$this->migrate_multiple();
-	}
-
 	private function migrate_multiple() {
 		$value = $this->field_value->get_value();
 		if ( empty( $value ) || ! is_array( $value ) ) {

@@ -49,7 +49,22 @@ class FieldValue {
 		if ( ! empty( $value ) ) {
 			$this->storage->update( $backup_key, $value );
 		}
+		return $value;
+	}
 
+	private function get_value_general_group( $id, $key ) {
+		// Get from backup key first.
+		$backup_key = '_ts_bak_'.$key;
+		$value      = get_post_meta( $id, $backup_key, true );
+		if ( ! empty( $value ) ) {
+			return $value;
+		}
+
+		// Backup the value.
+		$value = get_post_meta( $id, 'wpcf-'.$key, true );
+		if ( ! empty( $value ) ) {
+			update_post_meta( $id, $backup_key, $value );
+		}
 		return $value;
 	}
 
@@ -84,7 +99,7 @@ class FieldValue {
 					$child_type         = get_post_meta( $field_id, '_types_repeatable_field_group_post_type', true );
 					$value[$child_type] = $field_value->get_value_group( $sub_field );
 				} else {
-					$value[$field] = get_post_meta( $sub_field, 'wpcf-'.$field, true );
+					$value[$field] = $this->get_value_general_group( $sub_field, $field );
 				}
 			}
 			$values[] = $value;

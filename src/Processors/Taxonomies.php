@@ -22,9 +22,6 @@ class Taxonomies extends Base {
 	}
 
 	private function migrate_taxonomies() {
-		if ( session_status() !== PHP_SESSION_ACTIVE ) {
-			session_start();
-		}
 		$data_taxots = $this->get_items();
 		$i           = 0;
 		foreach ( $data_taxots as $value ) {

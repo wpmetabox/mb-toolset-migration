@@ -45,9 +45,6 @@ class PostTypes extends Base {
 	}
 
 	private function migrate_post_types() {
-		if ( session_status() !== PHP_SESSION_ACTIVE ) {
-			session_start();
-		}
 		$data_cptts = $this->get_items();
 		foreach ( $data_cptts as $value ) {
 			$plural                 = Arr::get( $value, 'labels.name' );

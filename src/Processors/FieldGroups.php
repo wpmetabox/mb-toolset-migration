@@ -48,7 +48,7 @@ class FieldGroups extends Base {
 		$parser->parse();
 		update_post_meta( $this->post_id, 'meta_box', $parser->get_settings() );
 
-		//$this->disable_post();
+		$this->disable_post();
 		//$this->delete_post();
 	}
 

@@ -31,6 +31,7 @@ class AdminPage {
 			'migratingPosts'         => __( 'Migrating posts', 'mb-toolset-migration' ),
 			'migratingTerms'         => __( 'Migrating terms', 'mb-toolset-migration' ),
 			'migratingUsers'         => __( 'Migrating users', 'mb-toolset-migration' ),
+			'migratingRelationship'  => __( 'Migrating relationship', 'mb-toolset-migration' ),
 		] );
 	}
 

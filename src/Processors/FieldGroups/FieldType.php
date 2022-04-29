@@ -158,54 +158,6 @@ class FieldType {
 
 	}
 
-	private function migrate_post_object() {
-		$this->type = 'post';
-
-		if ( isset( $this->taxonomy ) && is_array( $this->taxonomy ) ) {
-			$query_args = [];
-			foreach ( $this->taxonomy as $k => $item ) {
-				list( $taxonomy, $slug ) = explode( ':', $item );
-
-				$id = uniqid();
-				$query_args[ $id ] = [
-					'id'    => $id,
-					'key'   => "tax_query.$k.taxonomy",
-					'value' => $taxonomy,
-				];
-
-				$id = uniqid();
-				$query_args[ $id ] = [
-					'id'    => $id,
-					'key'   => "tax_query.$k.field",
-					'value' => 'slug',
-				];
-
-				$id = uniqid();
-				$query_args[ $id ] = [
-					'id'    => $id,
-					'key'   => "tax_query.$k.terms",
-					'value' => $slug,
-				];
-			}
-
-			$this->query_args = $query_args;
-		}
-
-		$this->multiple = (bool) $this->multiple;
-
-		unset( $this->allow_null );
-		unset( $this->ui );
-	}
-
-	private function migrate_relationship() {
-		$this->migrate_post_object();
-		$this->multiple = true;
-
-		unset( $this->elements );
-		unset( $this->min );
-		unset( $this->max );
-	}
-
 	private function migrate_date() {
 		$date_and_time   = Arr::get( $this->settings, 'data.date_and_time' );
 		$this->type      = ( $date_and_time == 'date' ) ? 'date' : 'datetime';
