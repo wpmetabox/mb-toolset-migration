@@ -45,7 +45,7 @@ class AdminPage {
 			<h2><?php esc_html_e( 'Notes:', 'mb-toolset-migration' ) ?></h2>
 			<ul>
 				<li><?php esc_html_e( 'Always backup your database first as the plugin will remove/replace the existing Toolset data. If you find any problem, restore the database and report us. We can\'t help you if you don\'t backup the database and there\'s something wrong.', 'mb-toolset-migration' ) ?></li>
-				<li><?php esc_html_e( 'Not all data types and settings in Toolset have an equivalent in Meta Box. The plugin will try to migrate as much as it can. But for such data or settings, the plugin will ignore. This includes: link, accordion, clone field types and complex location/conditional logic rules.', 'mb-acf-integration' ) ?></li>
+				<li><?php esc_html_e( 'Not all data types and settings in Toolset have an equivalent in Meta Box. The plugin will try to migrate as much as it can. But for such data or settings, the plugin will ignore. This includes: skype, post field types.', 'mb-toolset-migration' ) ?></li>
 				<li>
 					<?php esc_html_e( 'The plugin will attempt to migrate both field groups and custom fields data to Meta Box. You might need some premium extensions like:', 'mb-toolset-migration' ) ?>
 					<ul>
