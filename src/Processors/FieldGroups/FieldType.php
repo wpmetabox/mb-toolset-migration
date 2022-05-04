@@ -98,6 +98,10 @@ class FieldType {
 		$this->type = 'single_image';
 	}
 
+	private function migrate_audio() {
+		$this->type = 'file_input';
+	}
+
 	private function migrate_numeric() {
 		$this->type = 'number';
 	}

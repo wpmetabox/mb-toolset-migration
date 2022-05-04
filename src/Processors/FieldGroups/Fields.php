@@ -33,7 +33,7 @@ class Fields {
 
 		$settings = $settings[ $this->field ];
 
-		$ignore_types = [ 'audio', 'skype', 'post' ];
+		$ignore_types = [ 'skype', 'post' ];
 		if ( in_array( $settings['type'], $ignore_types ) ) {
 			return;
 		}
