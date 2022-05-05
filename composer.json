@@ -28,7 +28,6 @@
 		}
 	],
   "require": {
-		"meta-box/support": "dev-master",
-    "meta-box/mbb-parser": "dev-master"
+		"meta-box/support": "dev-master"
 	}
 }
