@@ -2,19 +2,13 @@
 namespace MetaBox\TS\Processors;
 
 use MetaBox\Support\Arr;
-use WP_Query;
 
 class Taxonomies extends Base {
 
 	protected function get_items() {
 
-		$data_taxots = get_option( 'wpcf-custom-taxonomies' );
-
-		if ( empty( $data_taxots ) ) {
-			return [];
-		}
-
-		return $data_taxots;
+		$items = get_option( 'wpcf-custom-taxonomies' ) ?: [];
+		return $items;
 	}
 
 	protected function migrate_item() {
@@ -22,79 +16,77 @@ class Taxonomies extends Base {
 	}
 
 	private function migrate_taxonomies() {
-		$data_taxots = $this->get_items();
-		$i           = 0;
-		foreach ( $data_taxots as $value ) {
+		$items = $this->get_items();
+		$i     = 0;
+		foreach ( $items as $item ) {
 			$i ++;
 			if ( $i < 3 ) {
 				continue;
 			}
-			$plural                = Arr::get( $value, 'labels.name' );
-			$singular              = Arr::get( $value, 'labels.singular_name' );
-			$slug                  = Arr::get( $value, 'slug' );
-			$supports              = Arr::get( $value, 'supports', [] );
-			$value['query_var']    = Arr::get( $value, 'query_var_enabled' );
-			$value['meta_box_cb']  = Arr::get( $value, 'meta_box_cb.disabled' ) ? false : 'post_tags_meta_box';
-			$value['show_in_rest'] = Arr::get( $value, 'show_in_rest_force_disable' ) ? false : true;
-			$value['hierarchical'] =  Arr::get( $value, 'hierarchical' ) ? true : false;
-			$value['types']        = [];
-			foreach( $supports as $key => $values ) {
-				$value['types'][] = $key;
+			$plural               = Arr::get( $item, 'labels.name' );
+			$singular             = Arr::get( $item, 'labels.singular_name' );
+			$slug                 = Arr::get( $item, 'slug' );
+			$supports             = Arr::get( $item, 'supports', [] );
+			$item['query_var']    = Arr::get( $item, 'query_var_enabled' );
+			$item['meta_box_cb']  = Arr::get( $item, 'meta_box_cb.disabled' ) ? false : 'post_tags_meta_box';
+			$item['show_in_rest'] = Arr::get( $item, 'show_in_rest_force_disable' ) ? false : true;
+			$item['hierarchical'] =  Arr::get( $item, 'hierarchical' ) ? true : false;
+			$item['types']        = [];
+			foreach( $supports as $key => $value ) {
+				$item['types'][] = $key;
 			}
 
 			$array = [
-				'menu_name'                  => sprintf( Arr::get( $value, 'labels.menu_name' ), $plural ),
-				'search_items'               => sprintf( Arr::get( $value, 'labels.search_items' ), $plural ),
-				'popular_items'              => sprintf( Arr::get( $value, 'labels.popular_items' ), $plural ),
-				'all_items'                  => sprintf( Arr::get( $value, 'labels.all_items' ), $plural ),
-				'parent_item'                => sprintf( Arr::get( $value, 'labels.parent_item' ), $singular ),
-				'parent_item_colon'          => sprintf( Arr::get( $value, 'labels.parent_item_colon' ), $singular ),
-				'edit_item'                  => sprintf( Arr::get( $value, 'labels.edit_item' ), $singular ),
-				'update_item'                => sprintf( Arr::get( $value, 'labels.update_item' ), $singular ),
-				'add_new_item'               => sprintf( Arr::get( $value, 'labels.add_new_item' ), $singular ),
-				'new_item_name'              => sprintf( Arr::get( $value, 'labels.new_item_name' ), $singular ),
-				'separate_items_with_commas' => sprintf( Arr::get( $value, 'labels.separate_items_with_commas' ), $plural ),
-				'add_or_remove_items'        => sprintf( Arr::get( $value, 'labels.add_or_remove_items' ), $plural ),
-				'choose_from_most_used'      => sprintf( Arr::get( $value, 'labels.choose_from_most_used' ), $plural ),
-				'view_item'                  => Arr::get( $value, 'labels.view_item', 'View '.$singular ) ?: 'View '.$singular,
-				'filter_by_item'             => Arr::get( $value, 'labels.filter_by_item', 'Filter by '.$singular ) ?: 'Filter by '.$singular,
-				'not_found'                  => Arr::get( $value, 'labels.not_found', 'Not '.$plural.' found' ) ?: 'Not '.$plural.' found',
-				'no_terms'                   => Arr::get( $value, 'labels.no_terms', 'No '.$plural ) ?: 'No '.$plural,
-				'items_list_navigation'      => Arr::get( $value, 'labels.items_list_navigation', $plural.' list navigation' ) ?: $plural.' list navigation',
-				'items_list'                 => Arr::get( $value, 'labels.items_list', $plural.' list' ) ?: $plural.' list',
-				'back_to_items'              => Arr::get( $value, 'labels.back_to_items', 'Back to '.$plural ) ?: 'Back to '.$plural,
+				'menu_name'                  => sprintf( Arr::get( $item, 'labels.menu_name' ), $plural ),
+				'search_items'               => sprintf( Arr::get( $item, 'labels.search_items' ), $plural ),
+				'popular_items'              => sprintf( Arr::get( $item, 'labels.popular_items' ), $plural ),
+				'all_items'                  => sprintf( Arr::get( $item, 'labels.all_items' ), $plural ),
+				'parent_item'                => sprintf( Arr::get( $item, 'labels.parent_item' ), $singular ),
+				'parent_item_colon'          => sprintf( Arr::get( $item, 'labels.parent_item_colon' ), $singular ),
+				'edit_item'                  => sprintf( Arr::get( $item, 'labels.edit_item' ), $singular ),
+				'update_item'                => sprintf( Arr::get( $item, 'labels.update_item' ), $singular ),
+				'add_new_item'               => sprintf( Arr::get( $item, 'labels.add_new_item' ), $singular ),
+				'new_item_name'              => sprintf( Arr::get( $item, 'labels.new_item_name' ), $singular ),
+				'separate_items_with_commas' => sprintf( Arr::get( $item, 'labels.separate_items_with_commas' ), $plural ),
+				'add_or_remove_items'        => sprintf( Arr::get( $item, 'labels.add_or_remove_items' ), $plural ),
+				'choose_from_most_used'      => sprintf( Arr::get( $item, 'labels.choose_from_most_used' ), $plural ),
+				'view_item'                  => Arr::get( $item, 'labels.view_item', 'View '.$singular ) ?: 'View '.$singular,
+				'filter_by_item'             => Arr::get( $item, 'labels.filter_by_item', 'Filter by '.$singular ) ?: 'Filter by '.$singular,
+				'not_found'                  => Arr::get( $item, 'labels.not_found', 'Not '.$plural.' found' ) ?: 'Not '.$plural.' found',
+				'no_terms'                   => Arr::get( $item, 'labels.no_terms', 'No '.$plural ) ?: 'No '.$plural,
+				'items_list_navigation'      => Arr::get( $item, 'labels.items_list_navigation', $plural.' list navigation' ) ?: $plural.' list navigation',
+				'items_list'                 => Arr::get( $item, 'labels.items_list', $plural.' list' ) ?: $plural.' list',
+				'back_to_items'              => Arr::get( $item, 'labels.back_to_items', 'Back to '.$plural ) ?: 'Back to '.$plural,
 			];
-			$value['labels'] = array_merge( $value['labels'], $array );
-			$content         = wp_json_encode( $value, JSON_UNESCAPED_UNICODE );
-			$content         = str_replace( '"1"', 'true', $content );
-			global $wpdb;
-			$post_id         = $this->get_id_by_slug( $slug, 'mb-taxonomy' );
+			$item['labels'] = array_merge( $item['labels'], $array );
+			$content        = wp_json_encode( $item, JSON_UNESCAPED_UNICODE );
+			$content        = str_replace( '"1"', 'true', $content );
+			$post_id        = $this->get_id_by_slug( $slug, 'mb-taxonomy' );
 			if ( $post_id ) {
-				wp_update_post([
+				wp_update_post( [
 					'ID'           => $post_id,
 					'post_content' => $content,
-				]);
+				] );
 			} else {
-				$post_id = wp_insert_post([
+				$post_id = wp_insert_post( [
 					'post_content' => $content,
 					'post_type'    => 'mb-taxonomy',
 					'post_title'   => $plural,
 					'post_status'  => 'publish',
 					'post_name'    => $slug,
-				]);
+				] );
 			}
-			update_post_meta( $i, 'mb_taxonomy_id', $post_id );
 		}
-		$data_taxots_new = [];
-		$i               = 0;
-		foreach ( $data_taxots as $key => $value ) {
+		$new_items = [];
+		$i         = 0;
+		foreach ( $new_items as $key => $value ) {
 			$i ++;
 			if ( $i > 2 ) {
 				$value['disabled'] = '1' ;
 			}
-			$data_taxots_new[ $key ] = $value;
+			$new_items[ $key ] = $value;
 		}
-		update_option( 'wpcf-custom-taxonomies', $data_taxots_new );
+		update_option( 'wpcf-custom-taxonomies', $new_items );
 		wp_send_json_success( [
 			'message' => __( 'Done', 'mb-toolset-migration' ),
 			'type'    => 'done',

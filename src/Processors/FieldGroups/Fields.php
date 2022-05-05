@@ -1,8 +1,6 @@
 <?php
 namespace MetaBox\TS\Processors\FieldGroups;
 
-use WP_Query;
-
 class Fields {
 	private $parent;
 	private $fields = [];
@@ -25,9 +23,9 @@ class Fields {
 	}
 
 	private function migrate_field() {
-		$fields   = get_option( 'wpcf-fields' );
-		$termmeta = get_option( 'wpcf-termmeta' );
-		$usermeta = get_option( 'wpcf-usermeta' );
+		$fields   = get_option( 'wpcf-fields' ) ?: [];
+		$termmeta = get_option( 'wpcf-termmeta' ) ?: [];
+		$usermeta = get_option( 'wpcf-usermeta' ) ?: [];
 
 		$settings = array_merge( $fields, $termmeta, $usermeta );
 

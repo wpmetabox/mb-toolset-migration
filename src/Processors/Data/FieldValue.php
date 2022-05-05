@@ -1,8 +1,6 @@
 <?php
 namespace MetaBox\TS\Processors\Data;
 
-use WP_Query;
-
 class FieldValue {
 	private $key;
 	private $storage;

@@ -100,13 +100,13 @@ class FieldGroups extends Base {
 		$all_post_types = [];
 		$all_taxonomies = [];
 
-		if ( $this->item->post_type === 'wp-types-group' ) {
-			$object_type = 'post';
-		} elseif ( $this->item->post_type === 'wp-types-user-group' ) {
-			$object_type = 'user';
-		}elseif ( $this->item->post_type === 'wp-types-term-group' ) {
-			$object_type = 'term';
-		}
+		$data_object = [
+			'wp-types-group'      => 'post',
+			'wp-types-user-group' => 'user',
+			'wp-types-term-group' => 'term'
+		];
+
+		$object_type = $data_object[ $this->item->post_type ];
 
 		if ( $object_type === 'post' ) {
 			$post_type  = get_post_meta( $this->item->ID, '_wp_types_group_post_types', true );

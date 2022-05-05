@@ -2,40 +2,31 @@
 namespace MetaBox\TS\Processors;
 
 use MetaBox\Support\Arr;
-use WP_Query;
 
 class Relationship extends Base {
 
 	protected function get_items() {
 
-		$data_rs = $this->get_id_relationship();
-
-		if ( empty( $data_rs ) ) {
-			return [];
-		}
-
-		return $data_rs;
+		$items = $this->get_id_relationship();
+		return $items;
 	}
 
 	private function get_id_relationship() {
 		global $wpdb;
 		$sql = "SELECT id FROM `{$wpdb->prefix}toolset_relationships` WHERE origin='wizard'";
-		$id  = $wpdb->get_col( $wpdb->prepare( $sql ) );
-		return $id;
+		return $wpdb->get_col( $wpdb->prepare( $sql ) );
 	}
 
 	private function get_value_relationship( $table, $value, $where, $value2 ) {
 		global $wpdb;
-		$sql    = "SELECT `{$value}`  FROM `{$wpdb->prefix}{$table}` WHERE `{$where}`=%s";
-		$values = $wpdb->get_var( $wpdb->prepare( $sql, $value2 ) );
-		return $values;
+		$sql = "SELECT `{$value}`  FROM `{$wpdb->prefix}{$table}` WHERE `{$where}`=%s";
+		return $wpdb->get_var( $wpdb->prepare( $sql, $value2 ) );
 	}
 
 	private function get_value_associations( $table, $value, $where, $value2 ) {
 		global $wpdb;
-		$sql    = "SELECT `{$value}`  FROM `{$wpdb->prefix}{$table}` WHERE `{$where}`=%s";
-		$values = $wpdb->get_col( $wpdb->prepare( $sql, $value2 ) );
-		return $values;
+		$sql = "SELECT `{$value}`  FROM `{$wpdb->prefix}{$table}` WHERE `{$where}`=%s";
+		return $wpdb->get_col( $wpdb->prepare( $sql, $value2 ) );
 	}
 
 	private function create_post( $id ) {
@@ -123,8 +114,8 @@ class Relationship extends Base {
 	}
 
 	private function migrate_relationship() {
-		$data_rs = $this->get_items();
-		foreach ( $data_rs as $id ) {
+		$items = $this->get_items();
+		foreach ( $items as $id ) {
 			$relationship_id = $this->create_post( $id );
 			$this->migrate_settings( $id, $relationship_id );
 			$this->migrate_values( $id );
