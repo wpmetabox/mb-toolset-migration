@@ -28,9 +28,10 @@ class Taxonomies extends Base {
 			$slug                 = Arr::get( $item, 'slug' );
 			$supports             = Arr::get( $item, 'supports', [] );
 			$item['query_var']    = Arr::get( $item, 'query_var_enabled' );
-			$item['meta_box_cb']  = Arr::get( $item, 'meta_box_cb.disabled' ) ? false : 'post_tags_meta_box';
+			$item['hierarchical'] = Arr::get( $item, 'hierarchical' ) ? true : false;
+			$meta_box_cb          = $item['hierarchical'] ? 'post_categories_meta_box' : 'post_tags_meta_box';
+			$item['meta_box_cb']  = Arr::get( $item, 'meta_box_cb.disabled' ) ? false : $meta_box_cb;
 			$item['show_in_rest'] = Arr::get( $item, 'show_in_rest_force_disable' ) ? false : true;
-			$item['hierarchical'] =  Arr::get( $item, 'hierarchical' ) ? true : false;
 			$item['types']        = [];
 			foreach( $supports as $key => $value ) {
 				$item['types'][] = $key;
