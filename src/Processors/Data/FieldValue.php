@@ -72,15 +72,15 @@ class FieldValue {
 						'field_id'   => $field_id,
 					] );
 					$child_type         = get_post_meta( $field_id, '_types_repeatable_field_group_post_type', true );
-					$value[$child_type] = $field_value->get_value_group( $sub_field );
+					$value[ $child_type ] = $field_value->get_value_group( $sub_field );
 				} else {
-					$value[$field] = $this->get_value_sub_field( $sub_field, $field );
+					$value[ $field ] = $this->get_value_sub_field( $sub_field, $field );
 				}
 			}
 			$values[] = $value;
 		}
-		for ( $i = 0 ; $i < count( $values); $i++ ) {
-			$value_group[$sort_order[$i]] = $values[$i];
+		for ( $i = 0 ; $i < count( $values ); $i++ ) {
+			$value_group[ $sort_order[ $i ] ] = $values[ $i ];
 		}
 		ksort( $value_group );
 		return $value_group;
