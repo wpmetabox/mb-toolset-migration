@@ -22,13 +22,17 @@ class Fields {
 		return $this->fields;
 	}
 
-	private function migrate_field() {
+	private function get_fields_settings() {
 		$fields   = get_option( 'wpcf-fields' ) ?: [];
 		$termmeta = get_option( 'wpcf-termmeta' ) ?: [];
 		$usermeta = get_option( 'wpcf-usermeta' ) ?: [];
 
 		$settings = array_merge( $fields, $termmeta, $usermeta );
+		return $settings;
+	}
 
+	private function migrate_field() {
+		$settings = $this->get_fields_settings();
 		$settings = $settings[ $this->field ];
 
 		$ignore_types = [ 'skype', 'post' ];

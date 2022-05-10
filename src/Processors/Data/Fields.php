@@ -12,24 +12,29 @@ class Fields {
 	}
 
 	public function migrate_fields() {
-		foreach( $this->parent as $post_id ) {
-			$fields = get_post_meta( $post_id, '_wp_types_group_fields', true );
+		foreach( $this->parent as $field_group_id ) {
+			$fields = get_post_meta( $field_group_id, '_wp_types_group_fields', true );
 			$fields = array_filter( explode( ",", $fields ) );
 			foreach ( $fields as $field ) {
 				$this->field = $field;
-				$this->migrate_field( $post_id );
+				$this->migrate_field();
 			}
 		}
 	}
 
-    private function migrate_field( $post_id ) {
+	private function get_fields_settings() {
 		$fields   = get_option( 'wpcf-fields' ) ?: [];
 		$termmeta = get_option( 'wpcf-termmeta' ) ?: [];
 		$usermeta = get_option( 'wpcf-usermeta' ) ?: [];
 
 		$settings = array_merge( $fields, $termmeta, $usermeta );
+		return $settings;
+	}
 
+	private function migrate_field() {
+		$settings = $this->get_fields_settings();
 		$settings = $settings[ $this->field ];
+
 		$ignore_types = [ 'skype', 'post' ];
 		if ( in_array( $settings['type'], $ignore_types ) ) {
 			return;
@@ -41,7 +46,6 @@ class Fields {
 
 		$args = [
 			'settings' => $settings,
-			'post_id'  => $post_id,
 			'storage'  => $this->storage,
 			'field_id' => !empty( $field_id ) ? $field_id : ''
 		];

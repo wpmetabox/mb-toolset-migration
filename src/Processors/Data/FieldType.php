@@ -16,16 +16,12 @@ class FieldType {
 			'key'      => $args['settings']['id'],
 			'storage'  => $args['storage'],
 			'type'     => $args['settings']['type'],
-			'post_id'  => $args['post_id'],
 			'clone'    => Arr::get( $this->settings, 'data.repetitive' ),
 			'field_id' => $args['field_id']
 		] );
 	}
 
 	public function migrate() {
-		// Always delete redundant key.
-		$this->storage->delete( "_{$this->settings['id']}" );
-
 		$method = ( $this->field_id ) ? 'migrate_group' : "migrate_{$this->settings['type']}";
 		$method = method_exists( $this, $method ) ? $method : 'migrate_general';
 		$this->$method();
@@ -43,16 +39,16 @@ class FieldType {
 	}
 
 	private function migrate_image() {
-		$this->migrate_image_file_video();
+		$this->migrate_media();
 	}
 
 
 	private function migrate_file() {
-		$this->migrate_image_file_video();
+		$this->migrate_media();
 	}
 
 	private function migrate_video() {
-		$this->migrate_image_file_video();
+		$this->migrate_media();
 	}
 
 	private function migrate_checkboxes() {
@@ -71,24 +67,17 @@ class FieldType {
 		}
 	}
 
-	private function get_image_file_video_id( $url ) {
-		global $wpdb;
-		$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $url ) );
-		return $attachment[0];
-	}
-
-	private function migrate_image_file_video() {
+	private function migrate_media() {
 		$values = $this->field_value->get_value();
-		$clone = Arr::get( $this->settings, 'data.repetitive' );
+		$clone  = Arr::get( $this->settings, 'data.repetitive' );
 		if ( $clone ) {
 			$meta_values = [];
 			foreach( $values as $value ) {
-				$meta_values[] = $this->get_image_file_video_id( $value );
+				$meta_values[] = attachment_url_to_postid( $value );
 			}
-			$this->storage->update( $this->settings['id'], $meta_values );
 		} else {
-			$meta_value = $this->get_image_file_video_id( $values );
-			$this->storage->update( $this->settings['id'], $meta_value );
+			$meta_values = attachment_url_to_postid( $values );
 		}
+		$this->storage->update( $this->settings['id'], $meta_values );
 	}
 }

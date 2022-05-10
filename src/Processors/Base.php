@@ -5,7 +5,7 @@ use MetaBox\Support\Arr;
 
 abstract class Base {
 	protected $threshold = 10;
-	protected $item;
+	public $item;
 	protected $object_type;
 	protected $field_group_ids = null;
 
@@ -35,16 +35,8 @@ abstract class Base {
 	abstract protected function get_items();
 	abstract protected function migrate_item();
 
-	public function get( $key ) {
-		return get_metadata( $this->object_type, $this->item, $key, true );
-	}
-
-	public function get_all( $key ) {
-		return get_metadata( $this->object_type, $this->item, $key, false );
-	}
-
-	public function get_id_related_posts( $key ) {
-		return toolset_get_related_posts( $this->item, $key, array( 'query_by_role' => 'parent', 'return' => 'post_id' ) );
+	public function get( $key, $single = true ) {
+		return get_metadata( $this->object_type, $this->item, $key, $single );
 	}
 
 	public function add( $key, $value ) {
