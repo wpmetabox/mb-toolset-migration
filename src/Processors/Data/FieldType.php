@@ -42,7 +42,6 @@ class FieldType {
 		$this->migrate_media();
 	}
 
-
 	private function migrate_file() {
 		$this->migrate_media();
 	}
@@ -62,8 +61,9 @@ class FieldType {
 		}
 		$this->storage->delete( $this->settings['id'] );
 		foreach ( $value as $sub_value ) {
-			foreach( $sub_value as $sub_sub_value)
-			$this->storage->add( $this->settings['id'], $sub_sub_value );
+			foreach ( $sub_value as $sub_sub_value ) {
+				$this->storage->add( $this->settings['id'], $sub_sub_value );
+			}
 		}
 	}
 
@@ -78,6 +78,7 @@ class FieldType {
 		} else {
 			$meta_values = attachment_url_to_postid( $values );
 		}
+		$meta_values = array_filter( $meta_values );
 		$this->storage->update( $this->settings['id'], $meta_values );
 	}
 }
