@@ -76,7 +76,7 @@ class FieldValue {
 					'clone'      => null,
 					'field_id'   => $field_id,
 				] );
-				$child_type         = get_post_meta( $field_id, '_types_repeatable_field_group_post_type', true );
+				$child_type           = get_post_meta( $field_id, '_types_repeatable_field_group_post_type', true );
 				$value[ $child_type ] = $field_value->get_value_group( $sub_field );
 			}
 

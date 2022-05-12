@@ -75,10 +75,10 @@ class FieldType {
 			foreach( $values as $value ) {
 				$meta_values[] = attachment_url_to_postid( $value );
 			}
+			$meta_values = array_filter( $meta_values );
 		} else {
 			$meta_values = attachment_url_to_postid( $values );
 		}
-		$meta_values = array_filter( $meta_values );
 		$this->storage->update( $this->settings['id'], $meta_values );
 	}
 }

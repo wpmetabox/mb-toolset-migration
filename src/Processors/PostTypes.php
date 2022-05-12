@@ -27,10 +27,6 @@ class PostTypes extends Base {
 	}
 
 	protected function migrate_item() {
-		$this->migrate_post_types();
-	}
-
-	private function migrate_post_types() {
 		$items = $this->get_items();
 		foreach ( $items as $item ) {
 			$plural                = Arr::get( $item, 'labels.name' );

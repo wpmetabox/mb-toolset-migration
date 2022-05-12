@@ -9,10 +9,17 @@ class Relationship extends Base {
 	}
 
 	protected function migrate_item() {
-		$post_id = $this->create_post( $this->item );
-		$this->migrate_settings( $this->item, $post_id );
-		$this->migrate_values( $this->item );
-		$this->disable_post( $this->item );
+		$items = $this->get_items();
+		foreach ( $items as $id ) {
+			$post_id = $this->create_post( $id );
+			$this->migrate_settings( $id, $post_id );
+			$this->migrate_values( $id );
+			$this->disable_post( $id );
+		}
+		wp_send_json_success( [
+			'message' => __( 'Done', 'mb-toolset-migration' ),
+			'type'    => 'done',
+		] );
 	}
 
 	private function create_post( $id ) {

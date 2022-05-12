@@ -12,10 +12,6 @@ class Taxonomies extends Base {
 	}
 
 	protected function migrate_item() {
-		$this->migrate_taxonomies();
-	}
-
-	private function migrate_taxonomies() {
 		$items = $this->get_items();
 		$i     = 0;
 		foreach ( $items as $item ) {
@@ -78,9 +74,10 @@ class Taxonomies extends Base {
 				] );
 			}
 		}
+		$items     = get_option( 'wpcf-custom-taxonomies' );
 		$new_items = [];
 		$i         = 0;
-		foreach ( $new_items as $key => $value ) {
+		foreach ( $items as $key => $value ) {
 			$i ++;
 			if ( $i > 2 ) {
 				$value['disabled'] = '1' ;
