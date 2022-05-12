@@ -89,7 +89,6 @@ class FieldGroups extends Base {
 	}
 
 	private function migrate_settings() {
-
 		$this->migrate_location();
 
 		update_post_meta( $this->post_id, 'settings', $this->settings );
@@ -107,72 +106,59 @@ class FieldGroups extends Base {
 		];
 
 		$object_type = $data_object[ $this->item->post_type ];
-
-		if ( $object_type === 'post' ) {
-			$post_type  = get_post_meta( $this->item->ID, '_wp_types_group_post_types', true );
-			$post_type  = ( $post_type === 'all' ) ? 'all' : array_filter( explode( ",", $post_type ) );
-			$post_types = Data::get_post_types();
-			foreach( $post_types as $key => $values ) {
-				$all_post_types[] = $key;
-			}
-			$post_types = ( $post_type === 'all' ) ? $all_post_types : array_filter( $post_type, function( $value ) use ( $all_post_types ) {
-				return in_array( $value, $all_post_types );
-			});
-		}
-
-		if ( $object_type === 'term' ) {
-			$taxonomy   = get_post_meta( $this->item->ID, '_wp_types_associated_taxonomy', false );
-			$taxonomies = Data::get_taxonomies();
-			foreach( $taxonomies as $key => $values ) {
-				$all_taxonomies[] = $key;
-			}
-			$taxonomies = empty ( $taxonomy ) ? $all_taxonomies : array_filter( $taxonomy, function( $value ) use ( $all_taxonomies ) {
-				return in_array( $value, $all_taxonomies );
-			});
-		}
-
 		$this->settings['object_type'] = $object_type;
 
 		if ( $object_type === 'post' ) {
-			$this->settings['post_types'] = $post_types;
-		} elseif ( $object_type === 'term' ) {
-			$this->settings['taxonomies'] = $taxonomies;
-		} elseif ( $object_type === 'user' ) {
-			$user = get_post_meta( $this->item->ID, '_wp_types_group_showfor', true );
-			if ( $user === 'all' ) {
-				return;
-			}
-			$label    = [];
-			$user     = array_filter( explode( ",", $user ) );
-			$wp_roles = new \WP_Roles();
-            $users    = $wp_roles->get_names();
-			foreach ( $user as $value ) {
-				foreach ( $users as $key_user => $value_user ) {
-					if ( $value == $key_user ) {
-						$label[] = $value_user;
-					}
-				}
-			}
-			$id = uniqid();
-            $this->settings['include_exclude'] = [
-            	'type'     => 'include',
-            	'relation' => 'OR',
-            	'rules'    => [
-            		$id => [
-            			'id'    => $id,
-            			'name'  => 'user_role',
-            			'value' => $user,
-            			'label' => $label,
-            		]
+			$post_type      = get_post_meta( $this->item->ID, '_wp_types_group_post_types', true );
+			$all_post_types = array_keys( Data::get_post_types() );
 
-            	]
-            ];
+			if ( $post_type === 'all' ) {
+				$post_types = $all_post_types;
+			} else {
+				$post_type  = array_filter( explode( ',', $post_type ) );
+				$post_types = array_intersect( $post_type, $all_post_types );
+			}
+
+			$this->settings['post_types'] = $post_types;
+			return;
 		}
 
+		if ( $object_type === 'term' ) {
+			$taxonomy       = get_post_meta( $this->item->ID, '_wp_types_associated_taxonomy', false );
+			$all_taxonomies = array_keys( Data::get_taxonomies() );
+			$taxonomies     = empty( $taxonomy ) ? $all_taxonomies : array_intersect( $taxonomy, $all_taxonomies );
+
+			$this->settings['taxonomies'] = $taxonomies;
+			return;
+		}
+
+		// $object_type === 'user'.
+		$roles = get_post_meta( $this->item->ID, '_wp_types_group_showfor', true );
+		if ( $roles === 'all' ) {
+			return;
+		}
+		$roles      = array_filter( explode( ',', $roles ) );
+
+		$role_names = wp_roles()->get_names();
+		$role_names = array_intersect_key( $role_names, array_flip( $roles ) );
+		$labels     = array_values( $role_names );
+
+		$id = uniqid();
+		$this->settings['include_exclude'] = [
+			'type'     => 'include',
+			'relation' => 'OR',
+			'rules'    => [
+				$id => [
+					'id'    => $id,
+					'name'  => 'user_role',
+					'value' => $roles,
+					'label' => $labels,
+				]
+			]
+		];
 	}
 
 	private function migrate_fields() {
-
 		$fields = new FieldGroups\Fields( $this->item->ID );
 		$this->fields = $fields->migrate_fields();
 

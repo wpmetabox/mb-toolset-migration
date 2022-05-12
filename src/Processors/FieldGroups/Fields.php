@@ -5,24 +5,15 @@ class Fields {
 	private $parent;
 	private $fields = [];
 	private $field;
+	private $all_field_settings;
 
 	public function __construct( $parent ) {
 		$this->parent = $parent;
+
+		$this->all_field_settings = $this->get_all_field_settings();
 	}
 
-	public function migrate_fields() {
-
-		$fields = get_post_meta( $this->parent, '_wp_types_group_fields', true );
-		$fields = array_filter( explode( ',', $fields ) );
-
-		foreach ( $fields as $field ) {
-			$this->field = $field;
-			$this->migrate_field();
-		}
-		return $this->fields;
-	}
-
-	private function get_fields_settings() {
+	private function get_all_field_settings() {
 		$fields   = get_option( 'wpcf-fields' ) ?: [];
 		$termmeta = get_option( 'wpcf-termmeta' ) ?: [];
 		$usermeta = get_option( 'wpcf-usermeta' ) ?: [];
@@ -31,9 +22,20 @@ class Fields {
 		return $settings;
 	}
 
+	public function migrate_fields() {
+		$fields = get_post_meta( $this->parent, '_wp_types_group_fields', true );
+		$fields = array_filter( explode( ',', $fields ) );
+
+		foreach ( $fields as $field ) {
+			$this->field = $field;
+			$this->migrate_field();
+		}
+
+		return $this->fields;
+	}
+
 	private function migrate_field() {
-		$settings = $this->get_fields_settings();
-		$settings = $settings[ $this->field ];
+		$settings = $this->all_field_settings[ $this->field ];
 
 		$ignore_types = [ 'skype', 'post' ];
 		if ( in_array( $settings['type'], $ignore_types ) ) {

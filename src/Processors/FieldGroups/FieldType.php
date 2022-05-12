@@ -124,7 +124,7 @@ class FieldType {
 		$default    = [];
 		$options    = Arr::get( $this->settings, 'data.options' );
 
-		foreach ( $options as $key => $option ) {
+		foreach ( $options as $option ) {
 			$title    = Arr::get( $option, 'title' );
 			$value    = Arr::get( $option, 'set_value' );
 			$checked  = Arr::get( $option, 'checked' );
@@ -159,17 +159,15 @@ class FieldType {
 		}
 		$this->options = implode( "\n", $values );
 		$this->std     = $default_value;
-
 	}
 
 	private function migrate_date() {
 		$date_and_time   = Arr::get( $this->settings, 'data.date_and_time' );
-		$this->type      = ( $date_and_time == 'date' ) ? 'date' : 'datetime';
+		$this->type      = $date_and_time === 'date' ? 'date' : 'datetime';
 		$this->timestamp = true;
 	}
 
 	private function migrate_colorpicker() {
 		$this->type = 'color';
 	}
-
 }

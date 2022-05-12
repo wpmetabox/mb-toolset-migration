@@ -11,9 +11,7 @@ class ConditionalLogic {
 	}
 
 	public function migrate() {
-
         $groups = Arr::get( $this->settings, 'data.conditional_display' );
-
 		if ( ! $groups )  {
 			return;
 		}
@@ -48,5 +46,4 @@ class ConditionalLogic {
 
 		$this->settings['conditional_logic'] = $conditional_logic;
 	}
-
 }
