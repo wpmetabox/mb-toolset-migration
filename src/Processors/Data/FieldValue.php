@@ -70,10 +70,9 @@ class FieldValue {
 				$field_id    = (int) end( $field_id );
 				$field_value = new self( [
 					'key'        => null,
-					'delete_key' => null,
 					'storage'    => $this->storage,
 					'type'       => null,
-					'clone'      => null,
+					'clone'      => true,
 					'field_id'   => $field_id,
 				] );
 				$child_type           = get_post_meta( $field_id, '_types_repeatable_field_group_post_type', true );
@@ -101,11 +100,37 @@ class FieldValue {
 		}
 
 		// Backup the value.
-		$value = get_post_meta( $id, "wpcf-{$key}", true );
+		$value    = get_post_meta( $id, "wpcf-{$key}", true );
+		$settings = $this->get_all_field_settings();
+		$settings = $settings[ $key ];
+		$media = [ 'image', 'file', 'video' ];
+		if ( in_array( $settings['type'], $media ) ) {
+			$value = attachment_url_to_postid( $value );
+		}
+		if ( $settings['type'] == 'checkboxes' ) {
+			if ( empty( $value ) || ! is_array( $value ) ) {
+				return;
+			}
+			delete_post_meta( $id, $key );
+			foreach ( $value as $sub_value ) {
+				foreach ( $sub_value as $sub_sub_value ) {
+					add_post_meta( $id, $key, $sub_sub_value );
+				}
+			}
+			$value = get_post_meta( $id, $key, false );
+		}
 		if ( ! empty( $value ) ) {
 			update_post_meta( $id, $backup_key, $value );
 		}
 		return $value;
+	}
+
+	private function get_all_field_settings() {
+		$fields   = get_option( 'wpcf-fields' ) ?: [];
+		$termmeta = get_option( 'wpcf-termmeta' ) ?: [];
+		$usermeta = get_option( 'wpcf-usermeta' ) ?: [];
+
+		return array_merge( $fields, $termmeta, $usermeta );
 	}
 
 }
