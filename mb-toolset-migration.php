@@ -7,7 +7,7 @@
  * Author:      MetaBox.io
  * Author URI:  https://metabox.io
  * License:     GPL2+
- * Text Domain: meta-box
+ * Text Domain: mb-toolset-migration
  * Domain Path: /languages/
  */
 
