@@ -1,11 +1,12 @@
-/.git
-/.github
+.git
+.github
+.gitattributes
+.gitignore
 
 .DS_Store
 Thumbs.db
 
 .distignore
-.gitattributes
-.gitignore
 composer.json
+composer.lock
 README.md
