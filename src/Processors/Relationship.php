@@ -8,6 +8,12 @@ class Relationship extends Base {
 		return $wpdb->get_col( $sql );
 	}
 
+	protected function get_items_post_reference(){
+		global $wpdb;
+		$sql = "SELECT id FROM `{$wpdb->prefix}toolset_relationships` WHERE origin='post_reference_field'";
+		return $wpdb->get_col( $sql );
+	}
+
 	protected function migrate_item() {
 		$items = $this->get_items();
 		foreach ( $items as $id ) {
@@ -16,6 +22,12 @@ class Relationship extends Base {
 			$this->migrate_values( $id );
 			$this->disable_post( $id );
 		}
+
+		$post_reference = $this->get_items_post_reference();
+		foreach ( $post_reference as $id ) {
+			$this->migrate_values_post_reference( $id );
+		}
+
 		wp_send_json_success( [
 			'message' => __( 'Done', 'mb-toolset-migration' ),
 			'type'    => 'done',
@@ -104,9 +116,27 @@ class Relationship extends Base {
 		}
 	}
 
+	private function migrate_values_post_reference( $id ) {
+		$parent_id      = $this->get_col_values( 'toolset_associations', 'parent_id', 'relationship_id', $id );
+		$element_parent = [];
+		foreach( $parent_id as $value ) {
+			$element_parent[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $value );
+		}
+		$child_id      = $this->get_col_values( 'toolset_associations', 'child_id', 'relationship_id', $id );
+		$element_child = [];
+		foreach( $child_id as $value ) {
+			$element_child[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $value );
+		}
+
+		$meta_key = $this->get_col_single_value( 'toolset_relationships', 'slug', 'id', $id );
+		foreach ( $element_parent as $key => $value ) {
+			update_post_meta( $element_child[$key], $meta_key, $value );
+		}
+	}
+
 	private function get_col_single_value( $table, $col, $conditional_col, $conditional_value ) {
 		global $wpdb;
-		$sql = "SELECT `{$col}` FROM `{$wpdb->prefix}{$table}` WHERE `{$conditional_col}`=%s LIMIT 1";
+		$sql = "SELECT `{$col}` FROM `{$wpdb->prefix}{$table}` WHERE `{$conditional_col}`=%s";
 		return $wpdb->get_var( $wpdb->prepare( $sql, $conditional_value ) );
 	}
 
