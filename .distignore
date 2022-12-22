@@ -10,3 +10,4 @@ Thumbs.db
 composer.json
 composer.lock
 README.md
+phpcs.xml
