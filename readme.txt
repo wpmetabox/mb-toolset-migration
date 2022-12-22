@@ -2,10 +2,10 @@
 Contributors: elightup, metabox, rilwis
 Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, custom taxonomies, cpt, meta boxes, custom field, post type, taxonomy, meta, admin, advanced, custom, edit, field, file, image, magic fields, post types, more fields, post, repeater, simple fields, text, textarea, type, cms, fields post
-Requires at least: 5.5
+Requires at least: 5.9
 Requires PHP: 7.0
-Tested up to: 5.9.3
-Stable tag: 1.0.0
+Tested up to: 6.1.1
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 Migrate custom fields from Toolset to Meta Box.
@@ -24,7 +24,7 @@ Switching from Toolset to Meta Box gives you lots of benefits:
 - Meta Box uses the [native WordPress meta data storage](https://docs.metabox.io/database/) and functions for ease of use and lightning-fast processing.
 - Meta Box has a ton of [free and premium extensions](https://metabox.io/plugins/) available to further extend the already powerful core Meta Box plugin so you can supercharge your custom fields in WordPress.
 
-See more details at the [comparison page between Toolset and Meta Box](https://metabox.io/meta-box-vs-toolset/).
+See more details at the [Toolset vs. Meta Box comparison page](https://metabox.io/meta-box-vs-toolset/).
 
 == Installation ==
 
@@ -41,6 +41,9 @@ See more details at the [comparison page between Toolset and Meta Box](https://m
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.1 - 2022-12-22 =
+- Fix not migrating post references
 
 = 1.0.0 - 2022-05-14 =
 - Initial release
