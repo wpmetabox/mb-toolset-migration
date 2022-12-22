@@ -170,4 +170,10 @@ class FieldType {
 	private function migrate_colorpicker() {
 		$this->type = 'color';
 	}
+
+	private function migrate_post() {
+		$this->type = 'post';
+		$this->post_type = [ Arr::get( $this->settings, 'data.post_reference_type' ) ];
+		$this->field_type = 'select_advanced';
+	}
 }
