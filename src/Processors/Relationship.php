@@ -8,12 +8,6 @@ class Relationship extends Base {
 		return $wpdb->get_col( $sql );
 	}
 
-	protected function get_items_post_reference(){
-		global $wpdb;
-		$sql = "SELECT id FROM `{$wpdb->prefix}toolset_relationships` WHERE origin='post_reference_field'";
-		return $wpdb->get_col( $sql );
-	}
-
 	protected function migrate_item() {
 		$items = $this->get_items();
 		foreach ( $items as $id ) {
@@ -23,15 +17,21 @@ class Relationship extends Base {
 			$this->disable_post( $id );
 		}
 
-		$post_reference = $this->get_items_post_reference();
-		foreach ( $post_reference as $id ) {
-			$this->migrate_values_post_reference( $id );
+		$post_references = $this->get_post_references();
+		foreach ( $post_references as $post_reference ) {
+			$this->migrate_post_reference( $post_reference );
 		}
 
 		wp_send_json_success( [
 			'message' => __( 'Done', 'mb-toolset-migration' ),
 			'type'    => 'done',
 		] );
+	}
+
+	private function get_post_references() {
+		global $wpdb;
+		$sql = "SELECT id FROM `{$wpdb->prefix}toolset_relationships` WHERE origin='post_reference_field'";
+		return $wpdb->get_col( $sql );
 	}
 
 	private function create_post( $id ) {
@@ -42,7 +42,7 @@ class Relationship extends Base {
 			'post_title'  => $title,
 			'post_type'   => 'mb-relationship',
 			'post_status' => $status == '1' ? 'publish' : 'draft',
-			'post_name'   => $slug
+			'post_name'   => $slug,
 		];
 
 		$post_id = $this->get_col_single_value( 'posts', 'ID', 'post_name', $slug );
@@ -74,7 +74,7 @@ class Relationship extends Base {
 			'from'       => $from_type,
 			'to'         => $to_type,
 		];
-		$settings    = [
+		$settings     = [
 			'id'         => $slug,
 			'menu_title' => $title,
 			'from'       => [
@@ -93,45 +93,41 @@ class Relationship extends Base {
 	}
 
 	private function migrate_values( $id ) {
-		$parent_id      = $this->get_col_values( 'toolset_associations', 'parent_id', 'relationship_id', $id );
-		$element_parent = [];
-		foreach( $parent_id as $value ) {
-			$element_parent[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $value );
-		}
-		$child_id      = $this->get_col_values( 'toolset_associations', 'child_id', 'relationship_id', $id );
-		$element_child = [];
-		foreach( $child_id as $value ) {
-			$element_child[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $value );
-		}
-		$slug = $this->get_col_single_value( 'toolset_relationships', 'slug', 'id', $id );
+		list( $parent_values, $child_values, $slug ) = $this->get_data( $id );
 
 		global $wpdb;
-		$sql  = "INSERT INTO `{$wpdb->prefix}mb_relationships` ( `from`, `to`, `type` ) VALUES ( %d, %d, %s)";
+		$sql  = "INSERT INTO `{$wpdb->prefix}mb_relationships` (`from`, `to`, `type`) VALUES (%d, %d, %s)";
 		$from = $this->get_col_values( 'mb_relationships', 'from', 'type', $slug );
 
-		foreach ( $element_parent as $key => $value ) {
-			if ( !in_array( $value, $from ) ) {
-				$wpdb->query( $wpdb->prepare( $sql, (int)$value, (int)$element_child[$key], $slug ) );
+		foreach ( $parent_values as $key => $value ) {
+			if ( ! in_array( $value, $from ) ) {
+				$wpdb->query( $wpdb->prepare( $sql, (int) $value, (int) $child_values[ $key ], $slug ) );
 			}
 		}
 	}
 
-	private function migrate_values_post_reference( $id ) {
-		$parent_id      = $this->get_col_values( 'toolset_associations', 'parent_id', 'relationship_id', $id );
-		$element_parent = [];
-		foreach( $parent_id as $value ) {
-			$element_parent[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $value );
+	private function migrate_post_reference( $id ) {
+		list( $parent_values, $child_values, $slug ) = $this->get_data( $id );
+		foreach ( $parent_values as $key => $value ) {
+			update_post_meta( $child_values[ $key ], $slug, $value );
 		}
-		$child_id      = $this->get_col_values( 'toolset_associations', 'child_id', 'relationship_id', $id );
-		$element_child = [];
-		foreach( $child_id as $value ) {
-			$element_child[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $value );
+	}
+
+	private function get_data( $ref_id ) {
+		$parent_ids    = $this->get_col_values( 'toolset_associations', 'parent_id', 'relationship_id', $ref_id );
+		$parent_values = [];
+		foreach ( $parent_ids as $parent_id ) {
+			$parent_values[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $parent_id );
+		}
+		$child_ids    = $this->get_col_values( 'toolset_associations', 'child_id', 'relationship_id', $ref_id );
+		$child_values = [];
+		foreach ( $child_ids as $child_id ) {
+			$child_values[] = $this->get_col_single_value( 'toolset_connected_elements', 'element_id', 'group_id', $child_id );
 		}
 
-		$meta_key = $this->get_col_single_value( 'toolset_relationships', 'slug', 'id', $id );
-		foreach ( $element_parent as $key => $value ) {
-			update_post_meta( $element_child[$key], $meta_key, $value );
-		}
+		$slug = $this->get_col_single_value( 'toolset_relationships', 'slug', 'id', $ref_id );
+
+		return [ $parent_values, $child_values, $slug ];
 	}
 
 	private function get_col_single_value( $table, $col, $conditional_col, $conditional_value ) {
