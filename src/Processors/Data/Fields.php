@@ -35,7 +35,7 @@ class Fields {
 
 	private function migrate_field() {
 		$settings = $this->all_field_settings[ $this->field ];
-		$ignore_types = [ 'skype', 'post' ];
+		$ignore_types = [ 'skype' ];
 		if ( in_array( $settings['type'], $ignore_types ) ) {
 			return;
 		}

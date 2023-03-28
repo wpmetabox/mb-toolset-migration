@@ -36,7 +36,7 @@ class FieldType {
 			$this->$method();
 		}
 
-		if ( $this->post_id ){
+		if ( $this->post_id ) {
 			$this->migrate_group();
 		}
 
@@ -62,9 +62,10 @@ class FieldType {
 			unset( $this->required );
 		}
 
-		$this->_id    = $this->type . '_' . uniqid();
-		$this->_state = 'collapse';
-		//unset( $this->data );
+		$this->_id        = $this->type . '_' . uniqid();
+		$this->_state     = 'collapse';
+		$this->save_field = true;
+		// unset( $this->data );
 		unset( $this->meta_key );
 		unset( $this->meta_type );
 
@@ -125,16 +126,15 @@ class FieldType {
 		$options    = Arr::get( $this->settings, 'data.options' );
 
 		foreach ( $options as $option ) {
-			$title    = Arr::get( $option, 'title' );
-			$value    = Arr::get( $option, 'set_value' );
-			$checked  = Arr::get( $option, 'checked' );
+			$title   = Arr::get( $option, 'title' );
+			$value   = Arr::get( $option, 'set_value' );
+			$checked = Arr::get( $option, 'checked' );
 			if ( $title && $value ) {
 				$values[] = "$value: $title";
 			}
 			if ( $checked ) {
 				$default[] = $value;
 			}
-
 		}
 		$this->options = implode( "\n", $values );
 		$this->std     = implode( "\n", $default );
@@ -147,15 +147,14 @@ class FieldType {
 		$default_value = '';
 
 		foreach ( $options as $key => $option ) {
-			$title    = Arr::get( $option, 'title' );
-			$value    = Arr::get( $option, 'value' );
-			if ( $title && $value ){
+			$title = Arr::get( $option, 'title' );
+			$value = Arr::get( $option, 'value' );
+			if ( $title && $value ) {
 				$values[] = "$value: $title";
 			}
 			if ( $key == $default ) {
 				$default_value = Arr::get( $option, 'value' );
 			}
-
 		}
 		$this->options = implode( "\n", $values );
 		$this->std     = $default_value;
@@ -172,8 +171,8 @@ class FieldType {
 	}
 
 	private function migrate_post() {
-		$this->type = 'post';
-		$this->post_type = [ Arr::get( $this->settings, 'data.post_reference_type' ) ];
+		$this->type       = 'post';
+		$this->post_type  = [ Arr::get( $this->settings, 'data.post_reference_type' ) ];
 		$this->field_type = 'select_advanced';
 	}
 }
