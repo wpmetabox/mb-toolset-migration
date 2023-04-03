@@ -4,8 +4,8 @@ Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, custom taxonomies, cpt, meta boxes, custom field, post type, taxonomy, meta, admin, advanced, custom, edit, field, file, image, magic fields, post types, more fields, post, repeater, simple fields, text, textarea, type, cms, fields post
 Requires at least: 5.9
 Requires PHP: 7.0
-Tested up to: 6.1.1
-Stable tag: 1.0.1
+Tested up to: 6.2
+Stable tag: 1.0.2
 License: GPLv2 or later
 
 Migrate custom fields from Toolset to Meta Box.
@@ -41,6 +41,9 @@ See more details at the [Toolset vs. Meta Box comparison page](https://metabox.i
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.2 - 2023-04-03 =
+- Fix "save_field" param is not set to true
 
 = 1.0.1 - 2022-12-22 =
 - Fix not migrating post references
