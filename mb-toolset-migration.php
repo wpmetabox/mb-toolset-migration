@@ -11,7 +11,10 @@
  * Domain Path: /languages/
  */
 
-defined( 'ABSPATH' ) || die;
+// Prevent loading this file directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	return;
+}
 
 if ( ! function_exists( 'mb_toolset_load' ) ) {
 	if ( file_exists( __DIR__ . '/vendor' ) ) {
