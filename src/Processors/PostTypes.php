@@ -21,8 +21,9 @@ class PostTypes extends Base {
 
 	private function get_exclude_post_types() {
 		global $wpdb;
-		$sql = "SELECT post_title FROM $wpdb->posts WHERE post_type=%s AND post_status=%s";
-		return $wpdb->get_col( $wpdb->prepare( $sql, 'wp-types-group', 'hidden' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $wpdb->get_col( $wpdb->prepare( "SELECT post_title FROM $wpdb->posts WHERE post_type=%s AND post_status=%s", 'wp-types-group', 'hidden' ) );
 
 	}
 

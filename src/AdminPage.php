@@ -57,7 +57,7 @@ class AdminPage {
 				</li>
 				<li><?php esc_html_e( 'You need to update the code to output fields data on the frontend to make it work with Meta Box.', 'mb-toolset-migration' ) ?></li>
 			</ul>
-			<p><a href="https://docs.metabox.io/extensions/mb-toolset-migration/" target="_blank"><?php esc_html_e( 'Read the documentation carefully before processing' ) ?> &rarr;</a></p>
+			<p><a href="https://docs.metabox.io/extensions/mb-toolset-migration/" target="_blank"><?php esc_html_e( 'Read the documentation carefully before processing', 'mb-toolset-migration' ) ?> &rarr;</a></p>
 			<div id="status"></div>
 		</div>
 		<?php

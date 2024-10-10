@@ -27,7 +27,8 @@ abstract class Base {
 
 		$_SESSION['processed'] += count( $items );
 		wp_send_json_success( [
-			'message' => sprintf( __( 'Processed %d items...', 'mb-toolset-migration' ), $_SESSION['processed'] ) . '<br>' . implode( '<br>', $output ),
+			// Translators: %d - count items.
+			'message' => sprintf( __( 'Processed %d items...', 'mb-toolset-migration' ), $_SESSION['processed'] ) . '<br>' . implode( '<br>', $output ), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,  WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			'type'    => 'continue',
 		] );
 	}
@@ -68,8 +69,8 @@ abstract class Base {
 		}
 		$s   = '"slug":'.'"'.$slug.'"';
 		$s   = '%' . $wpdb->esc_like( $s ) . '%';
-		$sql = "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_content LIKE %s";
-		$id  = $wpdb->get_var( $wpdb->prepare( $sql, $post_type, $s ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$id  = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_content LIKE %s", $post_type, $s ) );
 
 		return $id;
 	}

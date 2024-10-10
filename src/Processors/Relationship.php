@@ -5,6 +5,8 @@ class Relationship extends Base {
 	protected function get_items() {
 		global $wpdb;
 		$sql = "SELECT id FROM `{$wpdb->prefix}toolset_relationships` WHERE origin='wizard'";
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_col( $sql );
 	}
 
@@ -31,6 +33,8 @@ class Relationship extends Base {
 	private function get_post_references() {
 		global $wpdb;
 		$sql = "SELECT id FROM `{$wpdb->prefix}toolset_relationships` WHERE origin='post_reference_field'";
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_col( $sql );
 	}
 
@@ -57,8 +61,9 @@ class Relationship extends Base {
 
 	private function disable_post( $id ) {
 		global $wpdb;
-		$sql = "UPDATE `{$wpdb->prefix}toolset_relationships` SET is_active='0' WHERE id=%d";
-		$wpdb->query( $wpdb->prepare( $sql, $id ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->query( $wpdb->prepare( "UPDATE `{$wpdb->prefix}toolset_relationships` SET is_active='0' WHERE id=%d", $id ) );
 	}
 
 	private function migrate_settings( $id, $post_id ) {
@@ -96,12 +101,12 @@ class Relationship extends Base {
 		list( $parent_values, $child_values, $slug ) = $this->get_data( $id );
 
 		global $wpdb;
-		$sql  = "INSERT INTO `{$wpdb->prefix}mb_relationships` (`from`, `to`, `type`) VALUES (%d, %d, %s)";
 		$from = $this->get_col_values( 'mb_relationships', 'from', 'type', $slug );
 
 		foreach ( $parent_values as $key => $value ) {
 			if ( ! in_array( $value, $from ) ) {
-				$wpdb->query( $wpdb->prepare( $sql, (int) $value, (int) $child_values[ $key ], $slug ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+				$wpdb->query( $wpdb->prepare( "INSERT INTO `{$wpdb->prefix}mb_relationships` (`from`, `to`, `type`) VALUES (%d, %d, %s)", (int) $value, (int) $child_values[ $key ], $slug ) );
 			}
 		}
 	}
@@ -133,12 +138,16 @@ class Relationship extends Base {
 	private function get_col_single_value( $table, $col, $conditional_col, $conditional_value ) {
 		global $wpdb;
 		$sql = "SELECT `{$col}` FROM `{$wpdb->prefix}{$table}` WHERE `{$conditional_col}`=%s";
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_var( $wpdb->prepare( $sql, $conditional_value ) );
 	}
 
 	private function get_col_values( $table, $col, $conditional_col, $conditional_value ) {
 		global $wpdb;
 		$sql = "SELECT `{$col}`  FROM `{$wpdb->prefix}{$table}` WHERE `{$conditional_col}`=%s";
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_col( $wpdb->prepare( $sql, $conditional_value ) );
 	}
 }
