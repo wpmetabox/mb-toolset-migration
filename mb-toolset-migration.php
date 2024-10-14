@@ -8,7 +8,6 @@
  * Author URI:  https://metabox.io
  * License:     GPL2+
  * Text Domain: mb-toolset-migration
- * Domain Path: /languages/
  */
 
 // Prevent loading this file directly.
