@@ -4,8 +4,8 @@ Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, toolset
 Requires at least: 5.9
 Requires PHP: 7.0
-Tested up to: 6.6.1
-Stable tag: 1.0.3
+Tested up to: 6.6.2
+Stable tag: 1.0.4
 License: GPLv2 or later
 
 Migrate custom fields from Toolset to Meta Box.
@@ -42,17 +42,19 @@ See more details at the [Toolset vs. Meta Box comparison page](https://metabox.i
 
 == Changelog ==
 
-= 1.0.3 - 2024-08-19 =
+= 1.0.4 - 2024-10-14 =
+Fix Plugin Check
 
+= 1.0.3 - 2024-08-19 =
 Fix running PHP Codesniffer when installing & autoload the plugin's main file via Composer
 
 = 1.0.2 - 2023-04-03 =
-- Fix "save_field" param is not set to true
+Fix "save_field" param is not set to true
 
 = 1.0.1 - 2022-12-22 =
-- Fix not migrating post references
+Fix not migrating post references
 
 = 1.0.0 - 2022-05-14 =
-- Initial release
+Initial release
 
 == Upgrade Notice ==
