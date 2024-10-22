@@ -26,7 +26,7 @@ abstract class Base {
 		$output = array_filter( $output );
 
 		if ( isset( $_SESSION['processed'] ) ) {
-			(int) $_SESSION['processed'] += count( $items );
+			$_SESSION['processed'] += count( $items );
 		}
 		wp_send_json_success( [
 			// Translators: %d - count items.
