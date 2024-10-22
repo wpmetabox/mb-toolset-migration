@@ -12,7 +12,6 @@ class FieldGroups extends Base {
 
 	protected function get_items() {
 		// Process all field groups at once.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( ! empty( $_SESSION['processed'] ) ) {
 			return [];
 		}
