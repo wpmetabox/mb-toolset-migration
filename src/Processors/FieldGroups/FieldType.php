@@ -68,7 +68,6 @@ class FieldType {
 		// unset( $this->data );
 		unset( $this->meta_key );
 		unset( $this->meta_type );
-
 	}
 
 	private function migrate_group() {

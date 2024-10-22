@@ -18,7 +18,7 @@ class FieldGroups extends Base {
 		}
 
 		$query = new WP_Query( [
-			'post_type'              =>  [ 'wp-types-group', 'wp-types-term-group', 'wp-types-user-group' ],
+			'post_type'              => [ 'wp-types-group', 'wp-types-term-group', 'wp-types-user-group' ],
 			'post_status'            => 'publish',
 			'posts_per_page'         => -1,
 			'no_found_rows'          => true,
@@ -50,7 +50,7 @@ class FieldGroups extends Base {
 		update_post_meta( $this->post_id, 'meta_box', $parser->get_settings() );
 
 		$this->disable_post();
-		//$this->delete_post();
+		// $this->delete_post();
 	}
 
 	private function create_post() {
@@ -103,10 +103,10 @@ class FieldGroups extends Base {
 		$data_object = [
 			'wp-types-group'      => 'post',
 			'wp-types-user-group' => 'user',
-			'wp-types-term-group' => 'term'
+			'wp-types-term-group' => 'term',
 		];
 
-		$object_type = $data_object[ $this->item->post_type ];
+		$object_type                   = $data_object[ $this->item->post_type ];
 		$this->settings['object_type'] = $object_type;
 
 		if ( $object_type === 'post' ) {
@@ -138,13 +138,13 @@ class FieldGroups extends Base {
 		if ( $roles === 'all' ) {
 			return;
 		}
-		$roles      = array_filter( explode( ',', $roles ) );
+		$roles = array_filter( explode( ',', $roles ) );
 
 		$role_names = wp_roles()->get_names();
 		$role_names = array_intersect_key( $role_names, array_flip( $roles ) );
 		$labels     = array_values( $role_names );
 
-		$id = uniqid();
+		$id                                = uniqid();
 		$this->settings['include_exclude'] = [
 			'type'     => 'include',
 			'relation' => 'OR',
@@ -154,13 +154,13 @@ class FieldGroups extends Base {
 					'name'  => 'user_role',
 					'value' => $roles,
 					'label' => $labels,
-				]
-			]
+				],
+			],
 		];
 	}
 
 	private function migrate_fields() {
-		$fields = new FieldGroups\Fields( $this->item->ID );
+		$fields       = new FieldGroups\Fields( $this->item->ID );
 		$this->fields = $fields->migrate_fields();
 
 		update_post_meta( $this->post_id, 'fields', $this->fields );

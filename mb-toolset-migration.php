@@ -29,7 +29,7 @@ if ( ! function_exists( 'mb_toolset_load' ) ) {
 
 		define( 'MBTS_DIR', __DIR__ );
 
-		new MetaBox\TS\AdminPage;
-		new MetaBox\TS\Ajax;
+		new MetaBox\TS\AdminPage();
+		new MetaBox\TS\Ajax();
 	}
 }
