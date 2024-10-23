@@ -66,7 +66,7 @@ abstract class Base {
 		if ( ! $slug ) {
 			return null;
 		}
-		$s = '"slug":' . '"' . $slug . '"';
+		$s = '"slug":"' . $slug . '"';
 		$s = '%' . $wpdb->esc_like( $s ) . '%';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_content LIKE %s", $post_type, $s ) );

@@ -3,7 +3,7 @@ Contributors: elightup, metabox, rilwis
 Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, toolset
 Requires at least: 5.9
-Requires PHP: 7.0
+Requires PHP: 7.2
 Tested up to: 6.6.2
 Stable tag: 1.0.4
 License: GPLv2 or later

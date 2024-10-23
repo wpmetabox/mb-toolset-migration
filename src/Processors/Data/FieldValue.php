@@ -83,7 +83,8 @@ class FieldValue {
 		}
 
 		$value_group = [];
-		for ( $i = 0; $i < count( $values ); $i++ ) {
+		$count       = count( $values );
+		for ( $i = 0; $i < $count; $i++ ) {
 			$value_group[ $sort_order[ $i ] ] = $values[ $i ];
 		}
 		ksort( $value_group );
@@ -104,10 +105,10 @@ class FieldValue {
 		$settings = $this->get_all_field_settings();
 		$settings = $settings[ $key ];
 		$media    = [ 'image', 'file', 'video' ];
-		if ( in_array( $settings['type'], $media ) ) {
+		if ( in_array( $settings['type'], $media, true ) ) {
 			$value = attachment_url_to_postid( $value );
 		}
-		if ( $settings['type'] == 'checkboxes' ) {
+		if ( $settings['type'] === 'checkboxes' ) {
 			if ( empty( $value ) || ! is_array( $value ) ) {
 				return;
 			}

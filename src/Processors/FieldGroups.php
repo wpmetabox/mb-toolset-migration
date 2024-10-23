@@ -49,7 +49,6 @@ class FieldGroups extends Base {
 		update_post_meta( $this->post_id, 'meta_box', $parser->get_settings() );
 
 		$this->disable_post();
-		// $this->delete_post();
 	}
 
 	private function create_post() {
@@ -67,7 +66,8 @@ class FieldGroups extends Base {
 
 		$post_id = get_post_meta( $this->item->ID, 'meta_box_id', true );
 		if ( $post_id ) {
-			$this->post_id = $data['ID'] = $post_id;
+			$data['ID']    = $post_id;
+			$this->post_id = $post_id;
 			wp_update_post( $data );
 		} else {
 			$this->post_id = wp_insert_post( $data );

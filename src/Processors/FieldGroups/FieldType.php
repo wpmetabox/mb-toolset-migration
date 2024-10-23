@@ -16,11 +16,11 @@ class FieldType {
 		return $this->settings[ $name ] ?? null;
 	}
 
-	public function __set( $name, $value ) {
-		return $this->settings[ $name ] = $value;
+	public function __set( $name, $value ): void {
+		$this->settings[ $name ] = $value;
 	}
 
-	public function __isset( $name ) {
+	public function __isset( $name ): bool {
 		return isset( $this->settings[ $name ] );
 	}
 
@@ -65,7 +65,6 @@ class FieldType {
 		$this->_id        = $this->type . '_' . uniqid();
 		$this->_state     = 'collapse';
 		$this->save_field = true;
-		// unset( $this->data );
 		unset( $this->meta_key );
 		unset( $this->meta_type );
 	}
