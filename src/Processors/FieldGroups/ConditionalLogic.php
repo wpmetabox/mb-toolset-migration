@@ -11,8 +11,8 @@ class ConditionalLogic {
 	}
 
 	public function migrate() {
-        $groups = Arr::get( $this->settings, 'data.conditional_display' );
-		if ( ! $groups )  {
+		$groups = Arr::get( $this->settings, 'data.conditional_display' );
+		if ( ! $groups ) {
 			return;
 		}
 
@@ -34,11 +34,11 @@ class ConditionalLogic {
 				$operator = $rule['operation'];
 			}
 
-			$rule[ 'id' ]       = $id;
-			$rule[ 'name' ]     = $rule['field'];
-			$rule[ 'operator' ] = $operator;
+			$rule['id']       = $id;
+			$rule['name']     = $rule['field'];
+			$rule['operator'] = $operator;
 
-		    unset( $rule['field'] );
+			unset( $rule['field'] );
 			unset( $rule['operation'] );
 
 			$conditional_logic['when'][ $id ] = $rule;

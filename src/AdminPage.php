@@ -23,15 +23,15 @@ class AdminPage {
 		wp_enqueue_style( 'mb-toolset', plugins_url( 'assets/migrate.css', __DIR__ ), [], '1.0.0' );
 		wp_enqueue_script( 'mb-toolset', plugins_url( 'assets/migrate.js', __DIR__ ), [], '1.0.0', true );
 		wp_localize_script( 'mb-toolset', 'MbTs', [
-			'start'                  => __( 'Start', 'mb-toolset-migration' ),
-			'done'                   => __( 'Done', 'mb-toolset-migration' ),
-			'migratingPostTypes'     => __( 'Migrating post types', 'mb-toolset-migration' ),
-			'migratingTaxonomies'    => __( 'Migrating taxonomies', 'mb-toolset-migration' ),
-			'migratingFieldGroups'   => __( 'Migrating field groups', 'mb-toolset-migration' ),
-			'migratingPosts'         => __( 'Migrating posts', 'mb-toolset-migration' ),
-			'migratingTerms'         => __( 'Migrating terms', 'mb-toolset-migration' ),
-			'migratingUsers'         => __( 'Migrating users', 'mb-toolset-migration' ),
-			'migratingRelationship'  => __( 'Migrating relationship', 'mb-toolset-migration' ),
+			'start'                 => __( 'Start', 'mb-toolset-migration' ),
+			'done'                  => __( 'Done', 'mb-toolset-migration' ),
+			'migratingPostTypes'    => __( 'Migrating post types', 'mb-toolset-migration' ),
+			'migratingTaxonomies'   => __( 'Migrating taxonomies', 'mb-toolset-migration' ),
+			'migratingFieldGroups'  => __( 'Migrating field groups', 'mb-toolset-migration' ),
+			'migratingPosts'        => __( 'Migrating posts', 'mb-toolset-migration' ),
+			'migratingTerms'        => __( 'Migrating terms', 'mb-toolset-migration' ),
+			'migratingUsers'        => __( 'Migrating users', 'mb-toolset-migration' ),
+			'migratingRelationship' => __( 'Migrating relationship', 'mb-toolset-migration' ),
 		] );
 	}
 

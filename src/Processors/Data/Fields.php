@@ -23,7 +23,7 @@ class Fields {
 	}
 
 	public function migrate_fields() {
-		foreach( $this->parent as $field_group_id ) {
+		foreach ( $this->parent as $field_group_id ) {
 			$fields = get_post_meta( $field_group_id, '_wp_types_group_fields', true );
 			$fields = array_filter( explode( ',', $fields ) );
 			foreach ( $fields as $field ) {
@@ -34,7 +34,7 @@ class Fields {
 	}
 
 	private function migrate_field() {
-		$settings = $this->all_field_settings[ $this->field ];
+		$settings     = $this->all_field_settings[ $this->field ];
 		$ignore_types = [ 'skype' ];
 		if ( in_array( $settings['type'], $ignore_types ) ) {
 			return;
@@ -55,5 +55,4 @@ class Fields {
 		$field_type = new FieldType( $args );
 		$field_type->migrate();
 	}
-
 }

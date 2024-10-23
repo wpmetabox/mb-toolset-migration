@@ -15,7 +15,7 @@ class Taxonomies extends Base {
 		$items = $this->get_items();
 		$i     = 0;
 		foreach ( $items as $item ) {
-			$i ++;
+			++$i;
 			if ( $i < 3 ) {
 				continue;
 			}
@@ -29,11 +29,11 @@ class Taxonomies extends Base {
 			$item['meta_box_cb']  = Arr::get( $item, 'meta_box_cb.disabled' ) ? false : $meta_box_cb;
 			$item['show_in_rest'] = Arr::get( $item, 'show_in_rest_force_disable' ) ? false : true;
 			$item['types']        = [];
-			foreach( $supports as $key => $value ) {
+			foreach ( $supports as $key => $value ) {
 				$item['types'][] = $key;
 			}
 
-			$array = [
+			$array          = [
 				'menu_name'                  => sprintf( Arr::get( $item, 'labels.menu_name' ), $plural ),
 				'search_items'               => sprintf( Arr::get( $item, 'labels.search_items' ), $plural ),
 				'popular_items'              => sprintf( Arr::get( $item, 'labels.popular_items' ), $plural ),
@@ -47,13 +47,13 @@ class Taxonomies extends Base {
 				'separate_items_with_commas' => sprintf( Arr::get( $item, 'labels.separate_items_with_commas' ), $plural ),
 				'add_or_remove_items'        => sprintf( Arr::get( $item, 'labels.add_or_remove_items' ), $plural ),
 				'choose_from_most_used'      => sprintf( Arr::get( $item, 'labels.choose_from_most_used' ), $plural ),
-				'view_item'                  => Arr::get( $item, 'labels.view_item', 'View '.$singular ) ?: 'View '.$singular,
-				'filter_by_item'             => Arr::get( $item, 'labels.filter_by_item', 'Filter by '.$singular ) ?: 'Filter by '.$singular,
-				'not_found'                  => Arr::get( $item, 'labels.not_found', 'Not '.$plural.' found' ) ?: 'Not '.$plural.' found',
-				'no_terms'                   => Arr::get( $item, 'labels.no_terms', 'No '.$plural ) ?: 'No '.$plural,
-				'items_list_navigation'      => Arr::get( $item, 'labels.items_list_navigation', $plural.' list navigation' ) ?: $plural.' list navigation',
-				'items_list'                 => Arr::get( $item, 'labels.items_list', $plural.' list' ) ?: $plural.' list',
-				'back_to_items'              => Arr::get( $item, 'labels.back_to_items', 'Back to '.$plural ) ?: 'Back to '.$plural,
+				'view_item'                  => Arr::get( $item, 'labels.view_item', 'View ' . $singular ) ?: 'View ' . $singular,
+				'filter_by_item'             => Arr::get( $item, 'labels.filter_by_item', 'Filter by ' . $singular ) ?: 'Filter by ' . $singular,
+				'not_found'                  => Arr::get( $item, 'labels.not_found', 'Not ' . $plural . ' found' ) ?: 'Not ' . $plural . ' found',
+				'no_terms'                   => Arr::get( $item, 'labels.no_terms', 'No ' . $plural ) ?: 'No ' . $plural,
+				'items_list_navigation'      => Arr::get( $item, 'labels.items_list_navigation', $plural . ' list navigation' ) ?: $plural . ' list navigation',
+				'items_list'                 => Arr::get( $item, 'labels.items_list', $plural . ' list' ) ?: $plural . ' list',
+				'back_to_items'              => Arr::get( $item, 'labels.back_to_items', 'Back to ' . $plural ) ?: 'Back to ' . $plural,
 			];
 			$item['labels'] = array_merge( $item['labels'], $array );
 			$content        = wp_json_encode( $item, JSON_UNESCAPED_UNICODE );
@@ -78,9 +78,9 @@ class Taxonomies extends Base {
 		$new_items = [];
 		$i         = 0;
 		foreach ( $items as $key => $value ) {
-			$i ++;
+			++$i;
 			if ( $i > 2 ) {
-				$value['disabled'] = '1' ;
+				$value['disabled'] = '1';
 			}
 			$new_items[ $key ] = $value;
 		}
@@ -90,5 +90,4 @@ class Taxonomies extends Base {
 			'type'    => 'done',
 		] );
 	}
-
 }

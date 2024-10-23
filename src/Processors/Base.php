@@ -18,17 +18,17 @@ abstract class Base {
 			] );
 		}
 
-		$output = [];
-		foreach( $items as $item ) {
+		foreach ( $items as $item ) {
 			$this->item = $item;
-			$output[] = $this->migrate_item();
+			$this->migrate_item();
 		}
-		$output = array_filter( $output );
 
-		$_SESSION['processed'] += count( $items );
+		if ( isset( $_SESSION['processed'] ) ) {
+			$_SESSION['processed'] += count( $items );
+		}
 		wp_send_json_success( [
 			// Translators: %d - count items.
-			'message' => sprintf( __( 'Processed %d items...', 'mb-toolset-migration' ), $_SESSION['processed'] ) . '<br>' . implode( '<br>', $output ), // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,  WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			'message' => sprintf( __( 'Processed %d items...', 'mb-toolset-migration' ), isset( $_SESSION['processed'] ) ? (int) $_SESSION['processed'] : 0 ) . '<br>',
 			'type'    => 'continue',
 		] );
 	}
@@ -56,8 +56,7 @@ abstract class Base {
 		if ( null !== $this->field_group_ids ) {
 			return $this->field_group_ids;
 		}
-
-		$this->field_group_ids = array_unique( Arr::get( $_SESSION, "field_groups.{$this->object_type}", [] ) );
+		$this->field_group_ids = array_unique( array_map( 'absint', Arr::get( $_SESSION, "field_groups.{$this->object_type}", [] ) ) );
 
 		return $this->field_group_ids;
 	}
@@ -67,10 +66,10 @@ abstract class Base {
 		if ( ! $slug ) {
 			return null;
 		}
-		$s   = '"slug":'.'"'.$slug.'"';
-		$s   = '%' . $wpdb->esc_like( $s ) . '%';
+		$s = '"slug":"' . $slug . '"';
+		$s = '%' . $wpdb->esc_like( $s ) . '%';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$id  = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_content LIKE %s", $post_type, $s ) );
+		$id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type=%s AND post_content LIKE %s", $post_type, $s ) );
 
 		return $id;
 	}

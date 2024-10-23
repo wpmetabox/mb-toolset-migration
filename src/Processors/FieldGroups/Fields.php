@@ -38,7 +38,7 @@ class Fields {
 		$settings = $this->all_field_settings[ $this->field ];
 
 		$ignore_types = [ 'skype' ];
-		if ( in_array( $settings['type'], $ignore_types ) ) {
+		if ( in_array( $settings['type'], $ignore_types, true ) ) {
 			return;
 		}
 
@@ -56,5 +56,4 @@ class Fields {
 
 		$this->fields[ $settings['_id'] ] = $settings;
 	}
-
 }

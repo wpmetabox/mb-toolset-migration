@@ -45,7 +45,7 @@ class Relationship extends Base {
 		$data   = [
 			'post_title'  => $title,
 			'post_type'   => 'mb-relationship',
-			'post_status' => $status == '1' ? 'publish' : 'draft',
+			'post_status' => (int) $status === 1 ? 'publish' : 'draft',
 			'post_name'   => $slug,
 		];
 

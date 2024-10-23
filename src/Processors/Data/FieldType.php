@@ -1,5 +1,6 @@
 <?php
 namespace MetaBox\TS\Processors\Data;
+
 use MetaBox\Support\Arr;
 
 class FieldType {
@@ -17,7 +18,7 @@ class FieldType {
 			'storage'  => $args['storage'],
 			'type'     => $args['settings']['type'],
 			'clone'    => Arr::get( $this->settings, 'data.repetitive' ),
-			'field_id' => $args['field_id']
+			'field_id' => $args['field_id'],
 		] );
 	}
 
@@ -72,7 +73,7 @@ class FieldType {
 		$clone  = Arr::get( $this->settings, 'data.repetitive' );
 		if ( $clone ) {
 			$meta_values = [];
-			foreach( $values as $value ) {
+			foreach ( $values as $value ) {
 				$meta_values[] = attachment_url_to_postid( $value );
 			}
 			$meta_values = array_filter( $meta_values );
