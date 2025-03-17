@@ -12,7 +12,7 @@
 	],
 	"description": "Migrate Toolset to Meta Box",
 	"homepage": "https://metabox.io",
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-or-later",
 	"autoload": {
 		"psr-4": {
 			"MetaBox\\TS\\": "src/"
@@ -22,7 +22,7 @@
 		"prepend-autoloader": false
 	},
 	"require": {
-		"meta-box/support": "dev-master",
-		"meta-box/mbb-parser": "dev-master"
+		"wpmetabox/support": "dev-master",
+		"wpmetabox/mbb-parser": "dev-master"
 	}
 }
