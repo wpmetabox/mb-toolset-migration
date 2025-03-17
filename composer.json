@@ -1,5 +1,5 @@
 {
-	"name": "meta-box/mb-toolset-migration",
+	"name": "wpmetabox/mb-toolset-migration",
 	"type": "wordpress-plugin",
 	"keywords": [
 		"wordpress",
@@ -10,7 +10,7 @@
 		"custom-fields",
 		"custom-field"
 	],
-	"description": "Migrate Toolset custom fields to Meta Box",
+	"description": "Migrate Toolset to Meta Box",
 	"homepage": "https://metabox.io",
 	"license": "GPL-2.0",
 	"autoload": {
@@ -21,16 +21,6 @@
 	"config": {
 		"prepend-autoloader": false
 	},
-	"repositories": [
-		{
-			"type": "git",
-			"url": "https://github.com/wpmetabox/support.git"
-		},
-		{
-			"type": "git",
-			"url": "https://github.com/wpmetabox/mbb-parser.git"
-		}
-	],
 	"require": {
 		"meta-box/support": "dev-master",
 		"meta-box/mbb-parser": "dev-master"
