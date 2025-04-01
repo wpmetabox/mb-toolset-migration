@@ -4,8 +4,8 @@ Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, toolset
 Requires at least: 5.9
 Requires PHP: 7.2
-Tested up to: 6.6.2
-Stable tag: 1.0.5
+Tested up to: 6.7.2
+Stable tag: 1.0.6
 License: GPLv2 or later
 
 Migrate custom fields from Toolset to Meta Box.
@@ -45,7 +45,10 @@ See more details at the [Toolset vs. Meta Box comparison page](https://metabox.i
 
 == Changelog ==
 
-= 1.0.5 - 2024-11-01
+= 1.0.6 - 2025-04-01 =
+Update code dependencies
+
+= 1.0.5 - 2024-11-01 =
 Improve code quality with fixes for PHPCS
 
 = 1.0.4 - 2024-10-14 =
