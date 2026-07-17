@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e73773dc050a3fc5296d63b4e3a6746",
+    "content-hash": "5e6c2fa0db54c55218437fe2264a9cda",
     "packages": [
         {
             "name": "riimu/kit-phpencoder",
@@ -57,23 +57,22 @@
         },
         {
             "name": "wpmetabox/mbb-parser",
-            "version": "dev-master",
+            "version": "2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpmetabox/mbb-parser.git",
-                "reference": "c0fe9d81797f946eaccb3cb2ce979e2869d030f2"
+                "reference": "e0663efe56b260c0ec81debc029ef68cdde511b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpmetabox/mbb-parser/zipball/c0fe9d81797f946eaccb3cb2ce979e2869d030f2",
-                "reference": "c0fe9d81797f946eaccb3cb2ce979e2869d030f2",
+                "url": "https://api.github.com/repos/wpmetabox/mbb-parser/zipball/e0663efe56b260c0ec81debc029ef68cdde511b0",
+                "reference": "e0663efe56b260c0ec81debc029ef68cdde511b0",
                 "shasum": ""
             },
             "require": {
                 "riimu/kit-phpencoder": "^2.4",
-                "wpmetabox/support": "dev-master"
+                "wpmetabox/support": "^1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -87,25 +86,24 @@
             "description": "Parse meta box settings from JSON",
             "support": {
                 "issues": "https://github.com/wpmetabox/mbb-parser/issues",
-                "source": "https://github.com/wpmetabox/mbb-parser/tree/master"
+                "source": "https://github.com/wpmetabox/mbb-parser/tree/2.0.9"
             },
-            "time": "2025-03-27T12:29:01+00:00"
+            "time": "2026-07-04T09:37:00+00:00"
         },
         {
             "name": "wpmetabox/support",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpmetabox/support.git",
-                "reference": "874318ec497ce7fb918eb0629dec825210155d97"
+                "reference": "6c392347cdb77ed133b8a4227b5ee20db89a5717"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpmetabox/support/zipball/874318ec497ce7fb918eb0629dec825210155d97",
-                "reference": "874318ec497ce7fb918eb0629dec825210155d97",
+                "url": "https://api.github.com/repos/wpmetabox/support/zipball/6c392347cdb77ed133b8a4227b5ee20db89a5717",
+                "reference": "6c392347cdb77ed133b8a4227b5ee20db89a5717",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -120,21 +118,18 @@
             "homepage": "https://metabox.io",
             "support": {
                 "issues": "https://github.com/wpmetabox/support/issues",
-                "source": "https://github.com/wpmetabox/support/tree/master"
+                "source": "https://github.com/wpmetabox/support/tree/1.0.0"
             },
-            "time": "2025-03-17T08:34:51+00:00"
+            "time": "2025-09-12T23:29:48+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "wpmetabox/mbb-parser": 20,
-        "wpmetabox/support": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

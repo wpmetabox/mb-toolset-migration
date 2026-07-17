@@ -2,10 +2,10 @@
 Contributors: elightup, metabox, rilwis
 Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, toolset
-Requires at least: 6.5
-Requires PHP: 7.2
-Tested up to: 6.8.2
-Stable tag: 1.0.7
+Requires at least: 6.6
+Requires PHP: 7.4
+Tested up to: 7.0.1
+Stable tag: 1.0.8
 License: GPLv2 or later
 
 Migrate custom fields from Toolset to Meta Box.
@@ -29,6 +29,15 @@ Switching from Toolset to Meta Box gives you lots of benefits:
 
 See more details at the [Toolset vs. Meta Box comparison page](https://metabox.io/meta-box-vs-toolset/).
 
+### You might also like
+
+If you like this plugin, you might also like our other WordPress products:
+
+- [Slim SEO](https://wpslimseo.com) - A fast, lightweight and full-featured SEO plugin for WordPress with minimal configuration.
+- [Falcon](https://wpfalcon.pro) - A lightweight companion for making WordPress faster, cleaner, and more secure.
+- [GretaThemes](https://gretathemes.com) - Free and premium WordPress themes that clean, simple and just work.
+- [Auto Listings](https://wpautolistings.com) - A car sale and dealership plugin for WordPress.
+
 == Installation ==
 
 1. Visit **Plugins > Add New**
@@ -44,6 +53,9 @@ See more details at the [Toolset vs. Meta Box comparison page](https://metabox.i
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.8 - 2026-07-17 =
+Update dependencies
 
 = 1.0.7 - 2025-09-15 =
 Update dependencies
