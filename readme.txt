@@ -2,10 +2,10 @@
 Contributors: elightup, metabox, rilwis
 Donate link: https://metabox.io/pricing/
 Tags: meta box, custom fields, custom post types, toolset
-Requires at least: 6.6
+Requires at least: 6.7
 Requires PHP: 7.4
 Tested up to: 7.0.1
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 
 Migrate custom fields from Toolset to Meta Box.
@@ -53,6 +53,11 @@ If you like this plugin, you might also like our other WordPress products:
 == Screenshots ==
 
 == Changelog ==
+
+= 1.0.9 - 2026-11-12 =
+
+- Fix PHP 8.1+ deprecation notice (FILTER_SANITIZE_STRING)
+- Require WordPress 6.7+ and PHP 7.4+
 
 = 1.0.8 - 2026-07-17 =
 Update dependencies
